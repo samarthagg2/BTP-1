@@ -1,0 +1,14 @@
+# Large data files (exceed GitHub's 100 MB limit) - see README for download source
+data mat/
+data pkl/
+*.mat
+*.pkl
+
+# Paper PDFs (copyrighted)
+papers/
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+.vscode/
