@@ -1,0 +1,52 @@
+\section{Background}
+\label{sec:background}
+
+\subsection{The LFP/graphite cell}
+The cells are A123 APR18650M1A, a cylindrical 18650 cell with a lithium iron
+phosphate (LiFePO$_4$, LFP) cathode and a graphite anode. The nominal
+capacity is 1.1\,Ah and the voltage window is 2.0--3.6\,V. During
+discharge, lithium ions leave the graphite and move into the LFP. During
+charge they move the other way. LFP has a very flat voltage plateau (about
+3.3\,V at low current). This makes the cell's state hard to infer from
+voltage alone, but it also means that small changes in the shape of the
+curve can carry information.
+
+\subsection{C-rate and state of charge}
+Current is expressed as a \emph{C-rate} relative to the cell's capacity. A
+current of 1\,C fully charges or discharges the cell in one hour, which is
+1.1\,A for this cell. So \Crate{4} means 4.4\,A, or a full charge in
+15~minutes. \emph{State of charge} (SOC) is the stored charge as a
+percentage of capacity. A higher C-rate charges faster but stresses the
+cell more: it heats the cell, raises the overpotential, and makes lithium
+plating on the graphite more likely.
+
+\subsection{Degradation mechanisms}
+Capacity fade in these cells is usually explained by three
+modes~\cite{birkl2017}:
+\begin{itemize}
+  \item \textbf{Loss of lithium inventory (LLI):} lithium is used up in side
+  reactions, mainly growth of the solid--electrolyte interphase (SEI) layer
+  and lithium plating during fast charging.
+  \item \textbf{Loss of active material (LAM):} particles crack, lose
+  electrical contact or dissolve, so less electrode material can store
+  lithium.
+  \item \textbf{Increase in impedance:} the internal resistance rises,
+  which increases the overpotential and reduces the capacity that can be
+  used at high current.
+\end{itemize}
+Each mode changes the shape of the discharge curve $Q(V)$ in its own way.
+This is why curve-based features can detect degradation early, before the
+total capacity drops.
+
+\subsection{Charge--discharge protocols}
+A standard charging method is \emph{constant current--constant voltage}
+(CC-CV). The cell is charged at a fixed current until it reaches the upper
+voltage limit, then held at that voltage while the current decays. The
+fast-charging policies studied here replace the first part of the charge
+with \emph{two constant-current steps}, described in
+Section~\ref{sec:policies}.
+
+\subsection{End of life and cycle life}
+\emph{Cycle life} is defined as the number of cycles until the discharge
+capacity first falls below 80\% of nominal, i.e.\ 0.88\,Ah. This is the
+quantity the models in this project predict.

@@ -1,0 +1,57 @@
+\section{Introduction}
+
+Lithium-ion batteries power phones, laptops, electric vehicles and
+grid-scale storage. A battery's useful life is limited because its
+capacity falls with every charge--discharge cycle. Cells are usually
+retired when the capacity reaches 80\% of the rated value, which is called
+\emph{end of life} (EOL). Measuring cycle life directly means cycling a
+cell until it fails, which can take months or years. That delay slows down
+every step that depends on lifetime: designing new chemistries, validating
+manufacturing changes, grading cells, and optimising charging protocols.
+
+Lifetime prediction is hard for two reasons:
+\begin{enumerate}
+  \item \textbf{Degradation is non-linear.} Capacity often stays almost flat
+  for hundreds of cycles and then drops sharply (the ``knee'').
+  Extrapolating the early trend therefore underestimates how fast the cell
+  will eventually fail.
+  \item \textbf{Cells vary from one to the next.} Even identical cells,
+  cycled under identical conditions, can differ noticeably in lifetime.
+\end{enumerate}
+
+Severson \textit{et al.}~\cite{severson2019} showed that a simple linear
+model can predict cycle life with about 9.1\% test error using only the
+first 100 cycles, \emph{before} any capacity loss is visible. The
+model relies on features of the discharge voltage curve. The most important
+is the variance of $\dq$, the change in the discharge capacity--voltage
+curve between cycle 100 and cycle 10. With only the first five cycles, the
+same work classified cells as long- or short-lived with 4.9\% test error.
+Follow-up work used such early predictions to find the best fast-charging
+protocols automatically, in a closed loop~\cite{attia2020}.
+
+\subsection{Objectives}
+This project aims to:
+\begin{enumerate}
+  \item Understand the experiment, the charging protocols and the structure
+  of the public cycling dataset~\cite{matr_data}.
+  \item Build a reliable pipeline from the raw MATLAB files to analysis-ready
+  features.
+  \item Reproduce the early-prediction baseline of~\cite{severson2019}.
+  \item Compare machine-learning models from several families, and
+  data-driven against physics-informed features, under one common
+  evaluation protocol.
+  \item Test how well the models generalise to an unseen batch and
+  interpret what drives their predictions.
+\end{enumerate}
+Section~\ref{sec:problem} states the problem precisely.
+
+\subsection{Scope of this interim report}
+This report covers objectives~1 and~2, presents an exploratory analysis of
+one batch (dated 2018-02-20, 47 cells), and fixes the problem statement for
+the remaining work.
+Section~\ref{sec:problem} gives the problem statement,
+Section~\ref{sec:background} the battery background,
+Section~\ref{sec:dataset} the dataset, Section~\ref{sec:pipeline} the data
+pipeline, Section~\ref{sec:eda} the exploratory analysis,
+Section~\ref{sec:discussion} the observations and limitations, and
+Section~\ref{sec:plan} the work plan.

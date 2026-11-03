@@ -1,0 +1,870 @@
+[
+{
+"barcode": "EL150800460514",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 1852,
+"policy": "3.6C(80%)-3.6C"
+},
+{
+"barcode": "EL150800460486",
+"split": "train",
+"batch": "2017-05-12",
+"life": 2160,
+"policy": "3.6C(80%)-3.6C"
+},
+{
+"barcode": "EL150800460623",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 2237,
+"policy": "3.6C(80%)-3.6C"
+},
+{
+"barcode": "EL150800464977",
+"split": "train",
+"batch": "2017-05-12",
+"life": 1434,
+"policy": "4C(80%)-4C"
+},
+{
+"barcode": "EL150800464865",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 1709,
+"policy": "4C(80%)-4C"
+},
+{
+"barcode": "EL150800464883",
+"split": "train",
+"batch": "2017-05-12",
+"life": 1074,
+"policy": "4.4C(80%)-4.4C"
+},
+{
+"barcode": "EL150800463886",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 636,
+"policy": "4.8C(80%)-4.8C"
+},
+{
+"barcode": "EL150800465027",
+"split": "train",
+"batch": "2017-05-12",
+"life": 870,
+"policy": "4.8C(80%)-4.8C"
+},
+{
+"barcode": "EL150800460468",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 1054,
+"policy": "5.4C(40%)-3.6C"
+},
+{
+"barcode": "EL150800463882",
+"split": "train",
+"batch": "2017-05-12",
+"life": 788,
+"policy": "5.4C(40%)-3.6C"
+},
+{
+"barcode": "EL150800463838",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 880,
+"policy": "5.4C(50%)-3C"
+},
+{
+"barcode": "EL150800453113",
+"split": "train",
+"batch": "2017-05-12",
+"life": 719,
+"policy": "5.4C(50%)-3C"
+},
+{
+"barcode": "EL150800460653",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 862,
+"policy": "5.4C(50%)-3.6C"
+},
+{
+"barcode": "EL150800460522",
+"split": "train",
+"batch": "2017-05-12",
+"life": 857,
+"policy": "5.4C(50%)-3.6C"
+},
+{
+"barcode": "EL150800453240",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 691,
+"policy": "5.4C(60%)-3C"
+},
+{
+"barcode": "EL150800464881",
+"split": "train",
+"batch": "2017-05-12",
+"life": 788,
+"policy": "5.4C(60%)-3C"
+},
+{
+"barcode": "EL150800464002",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 534,
+"policy": "5.4C(60%)-3.6C"
+},
+{
+"barcode": "EL150800463871",
+"split": "train",
+"batch": "2017-05-12",
+"life": 559,
+"policy": "5.4C(60%)-3.6C"
+},
+{
+"barcode": "EL150800460477",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 1014,
+"policy": "5.4C(70%)-3C"
+},
+{
+"barcode": "EL150800460630",
+"split": "train",
+"batch": "2017-05-12",
+"life": 1017,
+"policy": "5.4C(70%)-3C"
+},
+{
+"barcode": "EL150800460617",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 854,
+"policy": "5.4C(80%)-5.4C"
+},
+{
+"barcode": "EL150800460659",
+"split": "train",
+"batch": "2017-05-12",
+"life": 870,
+"policy": "5.4C(80%)-5.4C"
+},
+{
+"barcode": "EL150800463198",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 842,
+"policy": "6C(30%)-3.6C"
+},
+{
+"barcode": "EL150800460507",
+"split": "train",
+"batch": "2017-05-12",
+"life": 860,
+"policy": "6C(30%)-3.6C"
+},
+{
+"barcode": "EL150800460644",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 917,
+"policy": "6C(40%)-3C"
+},
+{
+"barcode": "EL150800460615",
+"split": "train",
+"batch": "2017-05-12",
+"life": 709,
+"policy": "6C(40%)-3C"
+},
+{
+"barcode": "EL150800460481",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 876,
+"policy": "6C(40%)-3.6C"
+},
+{
+"barcode": "EL150800460640",
+"split": "train",
+"batch": "2017-05-12",
+"life": 731,
+"policy": "6C(40%)-3.6C"
+},
+{
+"barcode": "EL150800460436",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 757,
+"policy": "6C(50%)-3C"
+},
+{
+"barcode": "EL150800460525",
+"split": "train",
+"batch": "2017-05-12",
+"life": 742,
+"policy": "6C(50%)-3C"
+},
+{
+"barcode": "EL150800460622",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 703,
+"policy": "6C(50%)-3.6C"
+},
+{
+"barcode": "EL150800460506",
+"split": "train",
+"batch": "2017-05-12",
+"life": 704,
+"policy": "6C(50%)-3.6C"
+},
+{
+"barcode": "EL150800460601",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 648,
+"policy": "6C(60%)-3C"
+},
+{
+"barcode": "EL150800453773",
+"split": "train",
+"batch": "2017-05-12",
+"life": 617,
+"policy": "6C(60%)-3C"
+},
+{
+"barcode": "EL150800460642",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 625,
+"policy": "7C(30%)-3.6C"
+},
+{
+"barcode": "EL150800463229",
+"split": "train",
+"batch": "2017-05-12",
+"life": 966,
+"policy": "7C(30%)-3.6C"
+},
+{
+"barcode": "EL150800460647",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 1051,
+"policy": "7C(40%)-3C"
+},
+{
+"barcode": "EL150800460618",
+"split": "train",
+"batch": "2017-05-12",
+"life": 702,
+"policy": "7C(40%)-3C"
+},
+{
+"barcode": "EL150800460636",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 651,
+"policy": "7C(40%)-3.6C"
+},
+{
+"barcode": "EL150800460485",
+"split": "train",
+"batch": "2017-05-12",
+"life": 616,
+"policy": "7C(40%)-3.6C"
+},
+{
+"barcode": "EL150800460656",
+"split": "prim. test",
+"batch": "2017-05-12",
+"life": 599,
+"policy": "8C(15%)-3.6C"
+},
+{
+"barcode": "EL150800460518",
+"split": "train",
+"batch": "2017-06-30",
+"life": 300,
+"policy": "1C(4%)-6C"
+},
+{
+"barcode": "EL150800460605",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 148,
+"policy": "2C(10%)-6C"
+},
+{
+"barcode": "EL150800460602",
+"split": "train",
+"batch": "2017-06-30",
+"life": 438,
+"policy": "2C(2%)-5C"
+},
+{
+"barcode": "EL150800460673",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 335,
+"policy": "2C(7%)-5.5C"
+},
+{
+"barcode": "EL150800460655",
+"split": "train",
+"batch": "2017-06-30",
+"life": 444,
+"policy": "3.6C(22%)-5.5C"
+},
+{
+"barcode": "EL150800460635",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 480,
+"policy": "3.6C(2%)-4.85C"
+},
+{
+"barcode": "EL150800460634",
+"split": "train",
+"batch": "2017-06-30",
+"life": 511,
+"policy": "3.6C(30%)-6C"
+},
+{
+"barcode": "EL150800460451",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 561,
+"policy": "3.6C(9%)-5C"
+},
+{
+"barcode": "EL150800460466",
+"split": "train",
+"batch": "2017-06-30",
+"life": 477,
+"policy": "4C(13%)-5C"
+},
+{
+"barcode": "EL150800460510",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 458,
+"policy": "4C(31%)-5C"
+},
+{
+"barcode": "EL150800463208",
+"split": "train",
+"batch": "2017-06-30",
+"life": 483,
+"policy": "4C(40%)-6C"
+},
+{
+"barcode": "EL150800460449",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 485,
+"policy": "4C(4%)-4.85C"
+},
+{
+"barcode": "EL150800460478",
+"split": "train",
+"batch": "2017-06-30",
+"life": 494,
+"policy": "4.4C(24%)-5C"
+},
+{
+"barcode": "EL150800460480",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 487,
+"policy": "4.4C(47%)-5.5C"
+},
+{
+"barcode": "EL150800440551",
+"split": "train",
+"batch": "2017-06-30",
+"life": 461,
+"policy": "4.4C(55%)-6C"
+},
+{
+"barcode": "EL150800460652",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 502,
+"policy": "4.4C(8%)-4.85C"
+},
+{
+"barcode": "EL150800460603",
+"split": "train",
+"batch": "2017-06-30",
+"life": 489,
+"policy": "4.65C(19%)-4.85C"
+},
+{
+"barcode": "EL150800463245",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 513,
+"policy": "4.65C(44%)-5C"
+},
+{
+"barcode": "EL150800460501",
+"split": "train",
+"batch": "2017-06-30",
+"life": 527,
+"policy": "4.65C(69%)-6C"
+},
+{
+"barcode": "EL150800460597",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 495,
+"policy": "4.8C(80%)-4.8C"
+},
+{
+"barcode": "EL150800460611",
+"split": "train",
+"batch": "2017-06-30",
+"life": 461,
+"policy": "4.8C(80%)-4.8C"
+},
+{
+"barcode": "EL150800460596",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 471,
+"policy": "4.8C(80%)-4.8C"
+},
+{
+"barcode": "EL150800460614",
+"split": "train",
+"batch": "2017-06-30",
+"life": 468,
+"policy": "4.9C(27%)-4.75C"
+},
+{
+"barcode": "EL150800460610",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 509,
+"policy": "4.9C(61%)-4.5C"
+},
+{
+"barcode": "EL150800460604",
+"split": "train",
+"batch": "2017-06-30",
+"life": 498,
+"policy": "4.9C(69%)-4.25C"
+},
+{
+"barcode": "EL150800460527",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 481,
+"policy": "5.2C(10%)-4.75C"
+},
+{
+"barcode": "EL150800460608",
+"split": "train",
+"batch": "2017-06-30",
+"life": 492,
+"policy": "5.2C(37%)-4.5C"
+},
+{
+"barcode": "EL150800460631",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 519,
+"policy": "5.2C(50%)-4.25C"
+},
+{
+"barcode": "EL150800460641",
+"split": "train",
+"batch": "2017-06-30",
+"life": 520,
+"policy": "5.2C(58%)-4C"
+},
+{
+"barcode": "EL150800460492",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 499,
+"policy": "5.2C(66%)-3.5C"
+},
+{
+"barcode": "EL150800460628",
+"split": "train",
+"batch": "2017-06-30",
+"life": 463,
+"policy": "5.2C(71%)-3C"
+},
+{
+"barcode": "EL150800460528",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 535,
+"policy": "5.6C(25%)-4.5C"
+},
+{
+"barcode": "EL150800460511",
+"split": "train",
+"batch": "2017-06-30",
+"life": 478,
+"policy": "5.6C(38%)-4.25C"
+},
+{
+"barcode": "EL150800460649",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 465,
+"policy": "5.6C(47%)-4C"
+},
+{
+"barcode": "EL150800460627",
+"split": "train",
+"batch": "2017-06-30",
+"life": 459,
+"policy": "5.6C(58%)-3.5C"
+},
+{
+"barcode": "EL150800460526",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 499,
+"policy": "5.6C(5%)-4.75C"
+},
+{
+"barcode": "EL150800460513",
+"split": "train",
+"batch": "2017-06-30",
+"life": 429,
+"policy": "5.6C(65%)-3C"
+},
+{
+"barcode": "EL150800460473",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 466,
+"policy": "6C(20%)-4.5C"
+},
+{
+"barcode": "EL150800460498",
+"split": "train",
+"batch": "2017-06-30",
+"life": 462,
+"policy": "6C(31%)-4.25C"
+},
+{
+"barcode": "EL150800460474",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 457,
+"policy": "6C(40%)-4C"
+},
+{
+"barcode": "EL150800460613",
+"split": "train",
+"batch": "2017-06-30",
+"life": 487,
+"policy": "6C(4%)-4.75C"
+},
+{
+"barcode": "EL150800460678",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 429,
+"policy": "6C(52%)-3.5C"
+},
+{
+"barcode": "EL150800460599",
+"split": "prim. test",
+"batch": "2017-06-30",
+"life": 713,
+"policy": "6C(60%)-3C"
+},
+{
+"barcode": "EL150800737329",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1009,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737313",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1063,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737280",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1115,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800739476",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1048,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737213",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 828,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737229",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 667,
+"policy": "3.7C(31%)-5.9C"
+},
+{
+"barcode": "EL150800737307",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1836,
+"policy": "4.36C(80%)-4.36C"
+},
+{
+"barcode": "EL150800737233",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 828,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737270",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1039,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737277",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1078,
+"policy": "4.36C(80%)-4.36C"
+},
+{
+"barcode": "EL150800737276",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 817,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737314",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 932,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737319",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 816,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737387",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 858,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737386",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 876,
+"policy": "5.9C(15%)-4.6C"
+},
+{
+"barcode": "EL150800737345",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1638,
+"policy": "4.36C(80%)-4.36C"
+},
+{
+"barcode": "EL150800737378",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1315,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737274",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1146,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737275",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1155,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737315",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 813,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737366",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 772,
+"policy": "3.7C(31%)-5.9C"
+},
+{
+"barcode": "EL150800737285",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1002,
+"policy": "5.9C(60%)-3.1C"
+},
+{
+"barcode": "EL150800737368",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 825,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737259",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 989,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737287",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1028,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737251",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 850,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737234",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 541,
+"policy": "3.7C(31%)-5.9C"
+},
+{
+"barcode": "EL150800737320",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 858,
+"policy": "5.9C(15%)-4.6C"
+},
+{
+"barcode": "EL150800737380",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 935,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737279",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 731,
+"policy": "5.9C(60%)-3.1C"
+},
+{
+"barcode": "EL150800737304",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1284,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737350",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1158,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800739477",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1093,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800737365",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 923,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737334",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1935,
+"policy": "5C(67%)-4C"
+},
+{
+"barcode": "EL150800737361",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1156,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800737390",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 796,
+"policy": "5.6C(19%)-4.6C"
+},
+{
+"barcode": "EL150800739495",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 786,
+"policy": "5.6C(36%)-4.3C"
+},
+{
+"barcode": "EL150800737369",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 940,
+"policy": "5.3C(54%)-4C"
+},
+{
+"barcode": "EL150800739484",
+"split": "sec. test",
+"batch": "2018-04-12",
+"life": 1801,
+"policy": "4.36C(80%)-4.36C"
+}
+]

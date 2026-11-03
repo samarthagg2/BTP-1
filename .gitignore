@@ -12,3 +12,20 @@ papers/
 .ipynb_checkpoints/
 __pycache__/
 .vscode/
+
+# LaTeX build outputs
+report/*.aux
+report/*.log
+report/*.out
+report/*.bbl
+report/*.blg
+report/*.synctex.gz
+report/main.pdf
+report_overleaf.zip
+
+# Processed data caches (regenerate with src/convert.py + src/clean.py); keep splits.json
+data/processed/*
+!data/processed/splits.json
+# data/reference/ (small ground-truth files) IS tracked
+external/
+results/*.pkl

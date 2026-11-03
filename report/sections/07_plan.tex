@@ -1,0 +1,67 @@
+\section{Work Plan}
+\label{sec:plan}
+
+\subsection{Completed}
+\begin{itemize}
+  \item Literature review of the reference study~\cite{severson2019} and its
+  follow-up~\cite{attia2020}.
+  \item Conversion of the 2018-02-20 batch from MATLAB to Python.
+  \item Study of the dataset's structure, units and charging protocols.
+  \item Cleaning (removal of cells without a label) and exploratory
+  analysis.
+  \item First computation of the $\dq$ feature and its correlation with
+  cycle life.
+  \item Problem statement finalised (Section~\ref{sec:problem}).
+\end{itemize}
+
+\subsection{Phases}
+\begin{enumerate}
+  \item \textbf{Data (P1).} Download the three batches of~\cite{matr_data}.
+  Update the conversion notebooks to current \texttt{h5py} and apply the
+  authors' published cleaning steps (removing faulty cells and joining
+  cells that continued into the next batch). Save a lightweight cache
+  holding the summaries and the \texttt{Qdlin}/\texttt{Tdlin} curves for
+  cycles 1--100.
+  \item \textbf{Baseline (P2).} Implement feature sets F1--F3, the
+  mean and policy-mean baselines, and the elastic-net models; reproduce the
+  errors reported in~\cite{severson2019} (RQ1).
+  \item \textbf{Physics features (P3).} Implement F4: dQ/dV peak
+  height, position and area; resistance against $\sqrt{N}$; temperature rise.
+  \item \textbf{Model comparison (P4).} Run all 7 models on all 4 feature
+  sets with cross-validated tuning and repeated seeds (RQ2, RQ3). Run the
+  early-prediction study over $N$ (RQ4).
+  \item \textbf{Generalisation and interpretation (P5).} Evaluate on the
+  2018-02-20 batch (RQ5); compute SHAP values and permutation importance.
+  \item \textbf{Write-up (P6).} Final report and presentation.
+\end{enumerate}
+
+\subsection{Timeline}
+\begin{table}[h]
+\centering
+\caption{Planned timeline (weeks from start of phase P1).}
+\label{tab:timeline}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Weeks & Phase & Milestone \\
+\midrule
+1--2  & P1, P2 & Data cache ready; baseline reproduced \\
+3--4  & P3     & Feature set F4 implemented \\
+5--7  & P4     & Full results table; error-vs-$N$ plot \\
+8     & P5     & Unseen-batch results; importance plots \\
+9--10 & P6     & Final report and presentation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\todo{Map weeks to calendar dates agreed with the guide.}
+
+\subsection{Risks and mitigations}
+\begin{itemize}
+  \item \textbf{Large raw files (several GB per batch).} Convert each batch
+  once and work from the lightweight cache.
+  \item \textbf{Overfitting with about 124 samples.} Use regularisation,
+  nested cross-validation and fixed test sets, and compare against simple
+  baselines.
+  \item \textbf{Physics features give no improvement.} Report this as a
+  finding about which mechanisms do and do not predict lifetime.
+\end{itemize}

@@ -1,0 +1,47 @@
+{
+ "nan_QD_clean": [
+  10,
+  16137
+ ],
+ "nan_IR": [
+  604,
+  16137
+ ],
+ "nan_chargetime": [
+  13,
+  16137
+ ],
+ "temp_suspect": [
+  "b1c3",
+  "b1c31",
+  "b3c4",
+  "b3c29"
+ ],
+ "anomalous": [
+  "b2c1"
+ ],
+ "life_range_severson": [
+  148.0,
+  2237.0
+ ],
+ "life_train": [
+  300.0,
+  527.0,
+  2160.0
+ ],
+ "life_primary_test": [
+  148.0,
+  561.0,
+  2237.0
+ ],
+ "life_secondary_test": [
+  541.0,
+  964.5,
+  1935.0
+ ],
+ "life_unseen": [
+  392.0,
+  472.0,
+  1186.0
+ ]
+}

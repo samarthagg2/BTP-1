@@ -1,0 +1,163 @@
+{
+  "n_cells_total": 47,
+  "n_cells_valid": 39,
+  "excluded": {
+    "u1c22": "VarCharge-2C-100cycles",
+    "u1c23": "VarCharge-4C-100cycles",
+    "u1c35": "VarCharge-6C-100cycles",
+    "u1c36": "VarCharge-8C-100cycles",
+    "u1c37": "3.6C(80%)-3.6C(SLOWCYCLE",
+    "u1c38": "4.8C(80%)-4.8C(SLOWCYCLE",
+    "u1c39": "3.6C(9%)-5C(SLOWCYCLE",
+    "u1c40": "5.2C(58%)-4C(SLOWCYCLE"
+  },
+  "life_min": 392.0,
+  "life_max": 1186.0,
+  "life_mean": 565.7435897435897,
+  "life_median": 472.0,
+  "n_newstructure": 9,
+  "life_std_range": [
+    392.0,
+    514.0
+  ],
+  "life_new_range": [
+    777.0,
+    1186.0
+  ],
+  "life_std_mean": 453.0,
+  "life_new_mean": 941.5555555555555,
+  "b1c0_cycle2_duration_min": 70.67089500000002,
+  "policies": [
+    "3.6C(30%)-6C",
+    "3.6C(9%)-5C",
+    "4.65C(44%)-5C",
+    "4.65C(69%)-6C",
+    "4.8C(80%)-4.8C",
+    "5.2C(50%)-4.25C",
+    "5.2C(58%)-4C",
+    "5.6C(26%)-4.5C",
+    "6C(60%)-3C"
+  ],
+  "policy_table": [
+    {
+      "policy": "3.6C(30%)-6C",
+      "c1": 3.6,
+      "soc": 0.3,
+      "c2": 6.0,
+      "t1": 5.0,
+      "t2": 5.0,
+      "t80": 10.0,
+      "n_std": 2,
+      "n_new": 0,
+      "life_std": 421.0,
+      "life_new": null
+    },
+    {
+      "policy": "3.6C(9%)-5C",
+      "c1": 3.6,
+      "soc": 0.09,
+      "c2": 5.0,
+      "t1": 1.5,
+      "t2": 8.52,
+      "t80": 10.02,
+      "n_std": 2,
+      "n_new": 0,
+      "life_std": 394.0,
+      "life_new": null
+    },
+    {
+      "policy": "4.65C(44%)-5C",
+      "c1": 4.65,
+      "soc": 0.44,
+      "c2": 5.0,
+      "t1": 5.68,
+      "t2": 4.32,
+      "t80": 10.0,
+      "n_std": 2,
+      "n_new": 0,
+      "life_std": 482.0,
+      "life_new": null
+    },
+    {
+      "policy": "4.65C(69%)-6C",
+      "c1": 4.65,
+      "soc": 0.69,
+      "c2": 6.0,
+      "t1": 8.9,
+      "t2": 1.1,
+      "t80": 10.0,
+      "n_std": 2,
+      "n_new": 0,
+      "life_std": 452.0,
+      "life_new": null
+    },
+    {
+      "policy": "4.8C(80%)-4.8C",
+      "c1": 4.8,
+      "soc": 0.8,
+      "c2": 4.8,
+      "t1": 10.0,
+      "t2": 0.0,
+      "t80": 10.0,
+      "n_std": 5,
+      "n_new": 3,
+      "life_std": 484.0,
+      "life_new": 872.0
+    },
+    {
+      "policy": "5.2C(50%)-4.25C",
+      "c1": 5.2,
+      "soc": 0.5,
+      "c2": 4.25,
+      "t1": 5.77,
+      "t2": 4.24,
+      "t80": 10.0,
+      "n_std": 5,
+      "n_new": 0,
+      "life_std": 454.0,
+      "life_new": null
+    },
+    {
+      "policy": "5.2C(58%)-4C",
+      "c1": 5.2,
+      "soc": 0.58,
+      "c2": 4.0,
+      "t1": 6.69,
+      "t2": 3.3,
+      "t80": 9.99,
+      "n_std": 4,
+      "n_new": 3,
+      "life_std": 478.0,
+      "life_new": 962.0
+    },
+    {
+      "policy": "5.6C(26%)-4.5C",
+      "c1": 5.6,
+      "soc": 0.26,
+      "c2": 4.5,
+      "t1": 2.79,
+      "t2": 7.2,
+      "t80": 9.99,
+      "n_std": 6,
+      "n_new": 3,
+      "life_std": 448.0,
+      "life_new": 991.0
+    },
+    {
+      "policy": "6C(60%)-3C",
+      "c1": 6.0,
+      "soc": 0.6,
+      "c2": 3.0,
+      "t1": 6.0,
+      "t2": 4.0,
+      "t80": 10.0,
+      "n_std": 2,
+      "n_new": 0,
+      "life_std": 400.0,
+      "life_new": null
+    }
+  ],
+  "pearson_logvar_loglife_all": -0.9184092162658564,
+  "pearson_logvar_loglife_std": -0.3752508777050457,
+  "pearson_logvar_loglife_new": -0.2656874947873477
+}

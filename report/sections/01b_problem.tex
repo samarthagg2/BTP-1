@@ -1,0 +1,142 @@
+\section{Problem Statement}
+\label{sec:problem}
+
+\subsection{Statement}
+\textit{Using only the measurements from the first $N\le100$
+charge--discharge cycles of a lithium-ion cell, predict its cycle life
+(the number of cycles until capacity falls to 80\% of nominal).
+Systematically compare machine-learning models from different families and
+data-driven against physics-informed feature sets, under one common and
+leakage-free evaluation protocol. Assess how well the best models carry
+over to an unseen batch tested under different conditions.}
+
+\subsection{Research questions}
+\begin{enumerate}
+  \item[\textbf{RQ1}] Can the early-prediction results of~\cite{severson2019}
+  be reproduced on its public dataset?
+  \item[\textbf{RQ2}] With about 124 cells, do non-linear models (kernel,
+  tree-ensemble and neural) outperform regularised linear models?
+  \item[\textbf{RQ3}] Do physics-informed features (differential capacity,
+  resistance growth, heating) improve on the purely data-driven features of
+  \cite{severson2019}, and for which models?
+  \item[\textbf{RQ4}] How does prediction error depend on the number of early
+  cycles $N$ that are used?
+  \item[\textbf{RQ5}] How well do the trained models carry over to an unseen
+  batch with a different test procedure (2018-02-20)?
+\end{enumerate}
+
+\subsection{Data}
+\begin{itemize}
+  \item \textbf{Development data:} the three public batches
+  of~\cite{severson2019,matr_data} (2017-05-12, 2017-06-30, 2018-04-12).
+  These contain 124 LFP/graphite cells with lifetimes from 150 to 2300
+  cycles. We use the original split into 41 training, 43 primary-test and
+  40 secondary-test cells, so results are directly comparable with the
+  paper.
+  \item \textbf{Generalisation test:} the 2018-02-20 batch analysed in this
+  report (39 labelled cells, Section~\ref{sec:dataset}). It is never used
+  for training or tuning, and errors are reported separately for standard
+  and \texttt{-newstructure} cells.
+\end{itemize}
+
+\subsection{Feature sets}
+All features are computed only from cycles $1\ldots N$ (default $N=100$).
+Table~\ref{tab:featsets} lists the four feature sets.
+
+\begin{table}[t]
+\centering
+\caption{Feature sets compared in this study.}
+\label{tab:featsets}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lp{0.70\columnwidth}@{}}
+\toprule
+Set & Features \\
+\midrule
+F1 Variance & $\log_{10}\mathrm{Var}(\dq)$ (1 feature)~\cite{severson2019} \\
+F2 Discharge & F1 + min, skewness, kurtosis of $\dq$; discharge capacity at
+cycle 2; maximum capacity minus capacity at cycle 2 (6)~\cite{severson2019} \\
+F3 Full & min and $\log_{10}$Var of $\dq$; slope and intercept of a linear
+fit to capacity fade over cycles 2--100; discharge capacity at cycle 2;
+average charge time over the first 5 cycles; integral of temperature over
+cycles 2--100; minimum internal resistance; change in internal resistance
+from cycle 2 to cycle 100 (9)~\cite{severson2019} \\
+F4 Physics & F3 + change in dQ/dV main-peak height, position and area
+(cycle 10$\rightarrow$100); slope of internal resistance against $\sqrt{N}$;
+early temperature rise at fixed current \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Models}
+Table~\ref{tab:models} lists the seven models. They cover four families, so
+that the comparison shows how each \emph{kind} of model behaves, not just
+how individual models rank.
+
+\begin{table}[t]
+\centering
+\caption{Models compared in this study.}
+\label{tab:models}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}llp{0.42\columnwidth}@{}}
+\toprule
+Family & Model & Reason for inclusion \\
+\midrule
+\multirow{2}{*}{Linear} & Elastic net & Baseline of~\cite{severson2019}; easy to interpret \\
+ & PLS regression & Built for many correlated inputs; can also use the whole $\dq$ curve \\
+\midrule
+\multirow{2}{*}{Kernel} & SVR & Non-linear; works well with small data \\
+ & Gaussian process & Non-linear, and gives prediction uncertainty \\
+\midrule
+\multirow{2}{*}{Trees} & Random forest & Robust; little tuning needed \\
+ & XGBoost & Strong on tabular data; supports monotonic (physics) constraints \\
+\midrule
+Neural & MLP (1--2 layers) & Tests whether deep learning helps with small data \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textit{Optional extensions, if time permits:} a 1D CNN applied to
+the raw $\dq$ curve, and XGBoost with monotonic constraints.
+
+\subsection{Evaluation protocol}
+\begin{enumerate}
+  \item \textbf{Target:} $\log_{10}$(cycle life). Predictions are converted
+  back to cycles before computing errors.
+  \item \textbf{Splits:} the same split for every model. Hyperparameters are
+  tuned only by cross-validation on the training set. The test sets are
+  used once, for the final evaluation.
+  \item \textbf{Metrics:} RMSE (cycles), mean absolute percentage error
+  (MAPE, \%) and $R^2$, reported separately for each test set.
+  \item \textbf{Baselines:} predict the training mean, and predict the mean
+  for the cell's charging policy. A model has to beat both before its
+  result is counted as meaningful.
+  \item \textbf{Repeats:} randomised models are run with 5--10 seeds and
+  reported as mean $\pm$ standard deviation.
+\end{enumerate}
+
+\subsection{Additional analyses}
+\begin{itemize}
+  \item \textbf{Early-prediction horizon (RQ4):} recompute features for
+  $N\in\{20,40,60,80,100\}$ and plot test error against $N$ for the best
+  models.
+  \item \textbf{Interpretability:} use permutation importance and SHAP values
+  to find which features, and therefore which degradation mechanisms,
+  drive the predictions.
+\end{itemize}
+
+\subsection{Scope}
+\textbf{In scope:} predicting cycle life from early cycles; comparing
+models and feature sets; testing generalisation across batches.
+\textbf{Out of scope:} predicting the full capacity trajectory,
+physics-informed neural networks (PINNs), electrochemical simulation, and
+degradation-mode analysis that needs reference electrode (half-cell) data.
+
+\subsection{Expected deliverables}
+\begin{enumerate}
+  \item A reproducible pipeline from the raw \texttt{.mat} files to features
+  and models (code in the project repository).
+  \item A results table (models $\times$ feature sets $\times$ test sets).
+  \item Plots of predicted against actual cycle life, error against $N$,
+  and feature importance.
+  \item An analysis of generalisation to the unseen batch.
+\end{enumerate}

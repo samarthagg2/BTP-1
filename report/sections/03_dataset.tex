@@ -1,0 +1,195 @@
+\section{Dataset}
+\label{sec:dataset}
+
+\subsection{Source}
+The data comes from the public battery cycling repository released with
+Severson \textit{et al.}~\cite{severson2019,matr_data} by MIT, Stanford
+University and the Toyota Research Institute. The original study used 124
+cells cycled under 72 fast-charging policies, with lifetimes from 150 to
+2300 cycles, spread over three batches (dated 2017-05-12, 2017-06-30 and
+2018-04-12). The batch analysed in this report is a different one, dated
+\textbf{2018-02-20}, from the same repository and cell model. It contains
+47 cells and is referred to here as the \emph{unseen} batch \texttt{u1} (cell keys
+\texttt{u1c0}--\texttt{u1c46}). Because it is \emph{not} one of the three
+batches used in~\cite{severson2019}, numbers from that paper are not
+directly comparable to ours.
+
+\subsection{Experimental setup}
+Each cell ran on its own channel of a multichannel battery tester, inside a
+temperature-controlled chamber held at about 30\,\textdegree C. Every cycle
+recorded current, voltage, cell surface temperature and time. Cells were
+cycled \emph{past} EOL; for example, \texttt{u1c0} reached EOL at cycle 477
+but was cycled 496 times.
+
+\subsection{Structure of one cycle}
+Fig.~\ref{fig:cycle} shows the second cycle of \texttt{u1c0}, which uses
+the policy \texttt{5.2C(58\%)-4C}. One cycle takes about 71 minutes and has
+these stages:
+\begin{enumerate}
+  \item \textbf{Fast charge, 0$\rightarrow$80\% SOC (about 10\,min):} two
+  constant-current steps, here \Crate{5.2} up to 58\% SOC and then
+  \Crate{4} up to 80\%. \emph{This is the only stage that differs between
+  cells.}
+  \item \textbf{Rest} (about 5\,min).
+  \item \textbf{Finish the charge:} \Crate{1} constant current up to 3.6\,V,
+  then constant voltage at 3.6\,V until the current tapers off.
+  \item \textbf{Discharge:} \Crate{4} constant current down to 2.0\,V, then
+  constant voltage at 2.0\,V. This is identical for all cells.
+  \item \textbf{Rest.}
+\end{enumerate}
+Because the discharge step is the same for every cell, discharge curves can
+be compared directly across cells and cycles. This is why the features in
+Section~\ref{sec:eda} are taken from the discharge.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig_cycle_protocol}
+  \caption{Current (top) and voltage (bottom) during one cycle of
+  \texttt{u1c0} (policy \texttt{5.2C(58\%)-4C}, cycle 2). Shaded regions mark
+  the fast charge, the \Crate{1} CC-CV charge finish, and the \Crate{4}
+  discharge with a CV hold at 2.0\,V. Current is positive while charging.}
+  \label{fig:cycle}
+\end{figure}
+
+\subsection{Charging policies}
+\label{sec:policies}
+A policy name such as \texttt{5.2C(58\%)-4C} means: charge at
+\Crate{5.2} until 58\% SOC, then at \Crate{4} until 80\% SOC. The time taken
+by the two steps is
+\begin{equation}
+  t_{80} = \frac{s}{C_1}\cdot 60 + \frac{0.8-s}{C_2}\cdot 60 \quad\text{[min]},
+  \label{eq:t80}
+\end{equation}
+where $C_1$ and $C_2$ are the two C-rates and $s$ is the switching SOC as a
+fraction. For \texttt{5.2C(58\%)-4C}, $t_{80}=6.7+3.3=10.0$\,min, which
+agrees with the measured \texttt{chargetime} of 10.17\,min.
+
+Table~\ref{tab:policies} lists the nine base policies in this batch and
+Fig.~\ref{fig:policies} plots them. \textbf{All of them reach 80\% SOC in
+10\,min.} The policies differ only in \emph{how the current is distributed}
+within those ten minutes: high current first, low current first, or a
+single constant current (\texttt{4.8C(80\%)-4.8C}). The experiment
+therefore asks which way of spending a fixed 10-minute charge causes the
+least degradation.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{fig_policies}
+  \caption{The nine base fast-charging policies, plotted as current against
+  SOC from 0 to 80\%. Each panel is one policy. All reach 80\% SOC in about
+  10\,min; they differ in how the current is split between the two steps.}
+  \label{fig:policies}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Charging policies in batch 2018-02-20 (cells with a valid cycle
+life). $t_1$, $t_2$: duration of each step from~\eqref{eq:t80};
+$n$: number of cells (standard / \texttt{-newstructure});
+$\overline{L}$: mean cycle life of each group.}
+\label{tab:policies}
+\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Policy & $t_1$ (min) & $t_2$ (min) & $n$ & $\overline{L}_\text{std}$ & $\overline{L}_\text{new}$ \\
+\midrule
+\texttt{3.6C(9\%)-5C}     & 1.50 & 8.52 & 2 / 0 & 394 & --  \\
+\texttt{3.6C(30\%)-6C}    & 5.00 & 5.00 & 2 / 0 & 421 & --  \\
+\texttt{4.65C(44\%)-5C}   & 5.68 & 4.32 & 2 / 0 & 482 & --  \\
+\texttt{4.65C(69\%)-6C}   & 8.90 & 1.10 & 2 / 0 & 452 & --  \\
+\texttt{4.8C(80\%)-4.8C}  & 10.0 & 0.00 & 5 / 3 & 484 & 872 \\
+\texttt{5.2C(50\%)-4.25C} & 5.77 & 4.24 & 5 / 0 & 454 & --  \\
+\texttt{5.2C(58\%)-4C}    & 6.69 & 3.30 & 4 / 3 & 478 & 962 \\
+\texttt{5.6C(26\%)-4.5C}  & 2.79 & 7.20 & 6 / 3 & 448 & 991 \\
+\texttt{6C(60\%)-3C}      & 6.00 & 4.00 & 2 / 0 & 400 & --  \\
+\midrule
+\textbf{Total} & & & \textbf{30 / 9} & 453 & 942 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Cell groups}
+The 47 cells fall into four groups, summarised in Table~\ref{tab:groups}:
+\begin{itemize}
+  \item \textbf{Standard} (30 cells): one fixed two-step policy for the whole
+  test. Cycle life 392--514.
+  \item \textbf{\texttt{-newstructure}} (9 cells): the same base policies,
+  but the overall test procedure was changed. These cells live roughly
+  \emph{twice} as long (777--1186 cycles). The policy string does not say
+  what exactly was changed.
+  \item \textbf{VarCharge} (4 cells; e.g.\ \texttt{VarCharge-4C-100cycles}):
+  the charging current is changed every 100 cycles, so there is no single
+  policy. No cycle life is recorded.
+  \item \textbf{SLOWCYCLE} (4 cells): slow-cycling reference cells, most
+  stopped after about 100 cycles. No cycle life is recorded.
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\caption{Cell groups in batch 2018-02-20.}
+\label{tab:groups}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llcc@{}}
+\toprule
+Group & Cells & $n$ & Cycle life \\
+\midrule
+Standard        & (remaining)                & 30 & 392--514 \\
+\texttt{-newstructure} & c7--9, c32--34, c43--45 & 9 & 777--1186 \\
+VarCharge       & c22, c23, c35, c36         & 4  & NaN \\
+SLOWCYCLE       & c37--c40                   & 4  & NaN \\
+\midrule
+\textbf{Used for modelling} & & \textbf{39} & 392--1186 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data fields}
+Table~\ref{tab:fields} lists every field stored for each cell. There are
+three levels:
+\begin{enumerate}
+  \item \textbf{Cell-level metadata:} cycle life and charging policy.
+  \item \textbf{Per-cycle summaries:} one number per cycle, for example the
+  discharge capacity of that cycle.
+  \item \textbf{Within-cycle traces:} the raw time series recorded during
+  each cycle (about 1000 samples). Three of these are interpolated onto a
+  fixed grid of 1000 voltages from 3.5\,V down to 2.0\,V, called
+  \texttt{Vdlin}. Because every cycle uses the same grid, two cycles can be
+  compared simply by subtracting their arrays.
+\end{enumerate}
+
+\begin{table}[t]
+\centering
+\caption{Fields stored for each cell. Values are for \texttt{u1c0}.}
+\label{tab:fields}
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+Field & Meaning & Unit & Example / range \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Cell level}}\\
+\texttt{cycle\_life} & cycles to 0.88\,Ah & -- & 477 \\
+\texttt{charge\_policy} & policy string & -- & \texttt{5.2C(58\%)-4C}\\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Per-cycle summary (length = no.\ of cycles)}}\\
+\texttt{QD} & discharge capacity & Ah & 1.100 $\rightarrow$ 0.827 \\
+\texttt{QC} & charge capacity & Ah & 1.093 $\rightarrow$ 0.858 \\
+\texttt{IR} & internal resistance & $\Omega$ & 0.0176 $\rightarrow$ 0.0217 \\
+\texttt{Tavg/Tmin/Tmax} & cell temperature & \textdegree C & $T_\text{max}$: 34.9 $\rightarrow$ 38.7 \\
+\texttt{chargetime} & time to 80\% SOC & min & 10.17 \\
+\texttt{cycle} & cycle number & -- & 1 $\rightarrow$ 496 \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Within-cycle traces (about 1000 samples)}}\\
+\texttt{t} & time within cycle & min & 0--70.7 \\
+\texttt{I} & current (+ charge) & C-rate & $-4.0$ to $+5.2$ \\
+\texttt{V} & voltage & V & 2.0--3.6 \\
+\texttt{T} & temperature & \textdegree C & 29.5--34.9 \\
+\texttt{Qc}, \texttt{Qd} & cumulative charge / discharge & Ah & 0--1.10 \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Interpolated on the \texttt{Vdlin} grid (1000 points)}}\\
+\texttt{Qdlin} & discharge $Q(V)$ & Ah & 0--1.07 \\
+\texttt{Tdlin} & temperature $T(V)$ & \textdegree C & 30.0--34.6 \\
+\texttt{dQdV} & $\mathrm{d}Q/\mathrm{d}V$ (discharge) & Ah/V & $-7.0$ to 0 \\
+\bottomrule
+\end{tabular}}
+\end{table}

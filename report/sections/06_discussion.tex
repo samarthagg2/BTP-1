@@ -1,0 +1,33 @@
+\section{Observations and Limitations}
+\label{sec:discussion}
+
+\subsection{Key observations}
+\begin{enumerate}
+  \item \textbf{All policies take the same charge time.} Every policy
+  reaches 80\% SOC in 10\,min, so differences in lifetime reflect how the
+  current is distributed in time, not how fast the cell is charged overall.
+  \item \textbf{Capacity alone is a poor early predictor.} Fade stays small
+  and non-linear until the knee, so early capacity says little about
+  eventual lifetime.
+  \item \textbf{Curve-shape features carry early information.} $\dq$ visibly
+  separates short- and long-lived cells at cycle 100, long before EOL.
+  \item \textbf{The test procedure dominates.} Whatever
+  \texttt{-newstructure} changed roughly doubles cycle life. Its effect is
+  larger than that of any charging policy. These cells also tend to start
+  with lower internal resistance.
+\end{enumerate}
+
+\subsection{Limitations of the current analysis}
+\begin{itemize}
+  \item \textbf{Small sample, two groups.} With 39 labelled cells in two
+  well-separated clusters, a model can score well just by telling the
+  groups apart, without predicting differences within a group.
+  \item \textbf{The batch differs from the paper's.} The 2018-02-20 batch is
+  not part of the training or test sets of~\cite{severson2019}, so results
+  cannot be compared one to one.
+  \item \textbf{The meaning of \texttt{-newstructure} is unknown.} The data
+  does not record what was changed. Until this is clarified, these cells
+  should be modelled separately or given an explicit indicator feature.
+  \item \textbf{Noise.} Single-cycle glitches and the 20\,min charge-time
+  cap need consistent handling before features are extracted.
+\end{itemize}

@@ -1,0 +1,30 @@
+\begin{abstract}
+Predicting how long a lithium-ion cell will last, using only its first few
+charge--discharge cycles, would shorten battery development and validation
+from months to days. This project follows the data-driven approach of
+Severson \textit{et al.}~\cite{severson2019}. We work with a publicly
+released batch of 47 commercial LFP/graphite cells (A123 APR18650M1A,
+1.1\,Ah). Each cell was cycled to failure under one of several two-step
+fast-charging policies, all of which charge from 0 to 80\% state of charge
+in 10 minutes. This interim report documents the experiment and the data.
+It describes the conversion of the raw MATLAB files into a Python data
+structure and presents an exploratory analysis of capacity fade, internal
+resistance, temperature and the discharge voltage curve. Of the 47 cells,
+39 have a usable cycle life (392 to 1186 cycles). They fall into two
+distinct groups: standard cells (392--514 cycles) and cells marked
+\texttt{-newstructure} (777--1186 cycles). The key early-life feature of
+\cite{severson2019}, the variance of $\dq$, is strongly correlated with log
+cycle life across all cells (Pearson $r=-0.92$). Within each group,
+however, the correlation is much weaker ($r=-0.38$ and $r=-0.27$). The
+report then sets out the problem statement and the plan for feature
+engineering, model training and validation.
+The project's main study compares seven machine-learning models (elastic
+net, PLS, SVR, Gaussian process, random forest, XGBoost and an MLP) on four
+feature sets, from purely data-driven to physics-informed. All models use
+one common evaluation protocol and are also tested on an unseen batch.
+\end{abstract}
+
+\begin{IEEEkeywords}
+lithium-ion battery, cycle life prediction, fast charging, degradation,
+machine learning, feature engineering, LFP
+\end{IEEEkeywords}
