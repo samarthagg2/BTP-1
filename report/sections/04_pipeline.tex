@@ -125,6 +125,13 @@ B7 & Truncated policy names & e.g.\ \texttt{4C(31\%)-5}
 B8 & Very early failure & \texttt{b2c1} (148 cycles)
    & The paper reports results with and without this cell
    & Flagged \texttt{anomalous}; kept \\
+B9 & IR logger stuck: the same value repeated & \texttt{b1c18}, cycles 2--53 (19.886\,m$\Omega$ 52 times; no other cell repeats a value more than twice)
+   & Gives a false IR(2) and IR(100)$-$IR(2) ($z=-12$), so the full model predicted 0 cycles for this cell
+   & $\ge5$ identical consecutive IR values $\rightarrow$ NaN; the missing feature is then filled with the training median \\
+B10 & Gaps in the time stamps: one sample interval of hours or days
+   & \texttt{b1c18} cycles 2--53 (corrupt jump of $\sim$4000\,min in every record); genuine test pauses in \texttt{u1} ($\sim$cycle 48, 2.7 days) and \texttt{b1} (cycles 12--13)
+   & The temperature integral $\int T\,dt$ would measure the pause length, not the cell ($z=420$ for \texttt{b1c18})
+   & Sample intervals $>10$\,min are left out of the integral and of the cycle duration (\texttt{src/extras.py}) \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -224,7 +231,7 @@ so the whole dataset can be rebuilt from the raw files with three commands
   \node[box] (mat) {4 raw \texttt{.mat} batches (MATLAB v7.3 / HDF5), 2--3\,GB each};
   \node[box, below=of mat] (pkl) {\texttt{src/convert.py} $\rightarrow$ caches, about 70\,MB per batch\\
         (summaries + \texttt{Qdlin}/\texttt{Tdlin}/\texttt{dQdV}, first 120 records)};
-  \node[box, below=of pkl] (clean) {\texttt{src/clean.py}: rules A1--A4 + B1--B8\\
+  \node[box, below=of pkl] (clean) {\texttt{src/clean.py}: rules A1--A4 + B1--B10\\
         $\rightarrow$ \texttt{dataset.pkl} + \texttt{splits.json} (41/43/40 + 39)};
   \node[box, below=of clean] (chk) {\texttt{src/checks.py}: verify against SI Table 9 \checkmark};
   \node[box, below=of chk] (feat) {Feature extraction F1--F4 (cycles $\le N$) \textit{(next)}};

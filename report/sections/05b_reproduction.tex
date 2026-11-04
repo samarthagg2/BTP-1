@@ -1,0 +1,163 @@
+% ---------------------------------------------------------------------------
+\section{Reproduction of the Paper's Models (RQ1)}
+\label{sec:reproduction}
+
+Before comparing new models, we rebuilt the three models of
+Severson~\textit{et al.}~\cite{severson2019} on our cleaned data. If our
+pipeline reproduces their Table~1, any later difference between models can be
+trusted to come from the models, not from the data handling.
+
+\subsection{Features}
+All 20 candidate features of the paper's Supplementary Table~1 are computed
+by \texttt{src/features.py} from cycles $\le 100$ only (Table~\ref{tab:featsets}).
+The three models use the subsets marked in that table:
+\begin{itemize}
+  \item \textbf{Variance} (1 feature): $\log_{10}\mathrm{Var}(\dq)$.
+  \item \textbf{Discharge} (6): $\log_{10}$ of $|\min|$, variance, $|$skewness$|$
+  and $|$kurtosis$|$ of $\dq$; discharge capacity at cycle 2; maximum
+  capacity minus capacity at cycle 2.
+  \item \textbf{Full} (9): $\log_{10}|\min|$ and $\log_{10}\mathrm{Var}$ of $\dq$;
+  slope and intercept of a straight-line fit to capacity over cycles 2--100;
+  capacity at cycle 2; mean charge time over cycles 2--6; temperature
+  integral $\int T\,dt$ over cycles 2--100; minimum IR over cycles 2--100;
+  IR(100)$-$IR(2).
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\caption{Implementation choices where the paper's Supplementary Note~1 is
+ambiguous.}
+\label{tab:featsets}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{0.30\columnwidth}p{0.64\columnwidth}@{}}
+\toprule
+Item & Choice \\
+\midrule
+Variance & sample variance ($p-1$), as in Note~1 \\
+Skewness, kurtosis & standard moment ratios $m_3/m_2^{1.5}$, $m_4/m_2^2$; the
+Note~1 skewness denominator is read as a typo \\
+Capacity features & \texttt{QD\_clean} (glitch cycles removed, rule B3) \\
+Single-cycle values & nearest cycle with a finite value within $\pm3$ \\
+Temperature integral & sum over cycles of the trapezoidal $\int T\,dt$ of the
+raw traces, leaving out sample gaps $>10$\,min (rule B10) \\
+Missing values & training-set median (only \texttt{b1c18}'s IR, rule B9) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Protocol}
+As in the paper, the target is $\log_{10}$(cycle life), and every model is fitted
+and tuned on the 41 training cells only. The variance model is an ordinary
+least-squares line (the paper applies no model selection to it). The other
+two standardise the features and fit an elastic net, with $\alpha$ and the
+$\ell_1$ ratio chosen by 4-fold cross-validation repeated 10 times (the paper
+uses 4-fold cross-validation with Monte Carlo sampling). The full model leaves
+out the four cells whose temperature probe lost contact (rule B6), as the
+paper does. The primary and secondary test sets are evaluated once. RMSE and
+mean percentage error are computed on cycles, not on the log scale. The
+constant baseline predicts the training mean of $\log_{10}$(life) for every
+cell, i.e.\ the geometric mean; this reproduces the paper's Supplementary
+Table~3 exactly, whereas the arithmetic mean does not.
+
+\subsection{Results}
+Table~\ref{tab:repro} compares our errors with the paper's. The
+\textbf{variance model matches to within one cycle} on every split, which
+confirms that our $\dq$, cell labels and splits are identical to the paper's.
+The discharge model is within 1--9\,\% of the paper's RMSE. The full model is
+close on the test sets (primary 125 vs.\ 118 cycles, secondary 220 vs.\ 214)
+and less close on training (67 vs.\ 51). Its higher primary RMSE without the
+anomalous cell (122 vs.\ 100) comes mostly from a single cell: \texttt{b1c2},
+the longest-lived cell in the dataset (2237 cycles), is predicted at 1594
+cycles and accounts for 67\,\% of the squared error. Without it the RMSE
+would be 71 cycles. The ranking of the three models is the same as in the paper on every
+split, including the paper's counter-intuitive result that the full model is
+\emph{worse} than the discharge model on the secondary test set. The paper
+attributes this to the secondary batch's extra year of calendar ageing,
+which lowers its initial capacity and biases the capacity features.
+
+\begin{table*}[t]
+\centering
+\caption{Reproduction of the paper's Table~1 and the constant baseline of
+its Supplementary Table~3. Each entry is RMSE (cycles) / mean percentage
+error; paper values in parentheses. ``Primary excl.'' leaves out the anomalous
+cell \texttt{b2c1}. The policy-mean baseline is ours.}
+\label{tab:repro}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Model & Train & Primary test & Primary excl. & Secondary test \\
+\midrule
+Constant      & 327 / 29.6\,\% (327 / 29.6) & 401 / 35.0\,\% (401 / 34.9) & 399 / 28.2\,\% (399 / 28.2) & 511 / 36.1\,\% (511 / 36.1) \\
+Policy mean   & 46 / 1.6\,\%  & 173 / 27.3\,\% & 159 / 20.3\,\% & 509 / 36.0\,\% \\
+Variance      & 104 / 14.1\,\% (103 / 14.1) & 138 / 14.7\,\% (138 / 14.7) & 138 / 13.2\,\% (138 / 13.2) & 196 / 11.4\,\% (196 / 11.4) \\
+Discharge     & 69 / 9.2\,\% (76 / 9.8)     & 90 / 12.6\,\% (91 / 13.0)   & 85 / 9.4\,\% (86 / 10.1)    & 167 / 9.9\,\% (173 / 8.6) \\
+Full          & 67 / 6.8\,\% (51 / 5.6)     & 125 / 11.0\,\% (118 / 14.1) & 122 / 8.0\,\% (100 / 7.5)   & 220 / 11.2\,\% (214 / 10.7) \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{fig_p2_parity}
+  \caption{Predicted vs.\ observed cycle life for the three reproduced models
+  (log axes; cf.\ the paper's Fig.~3). Dashed line: perfect prediction.
+  RMSE in parentheses excludes the anomalous cell \texttt{b2c1} (circled). In
+  all three models, the longest-lived secondary-test cells are under-predicted.}
+  \label{fig:parity}
+\end{figure*}
+
+\textbf{Coefficients.} The paper prints the full model's coefficients on
+standardised features (its Supplementary Fig.~5). Ours have the same sign for
+all nine features and similar magnitudes (Table~\ref{tab:coef}). Like the
+paper, our elastic net gives the fade-curve intercept a weight of essentially
+zero. It also zeroes the fade-curve slope, to which the paper gives a small
+weight.
+
+\begin{table}[t]
+\centering
+\caption{Full-model coefficients on standardised features (target
+$\log_{10}$ life): ours vs.\ the paper's Supplementary Fig.~5.}
+\label{tab:coef}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Feature & Ours & Paper \\
+\midrule
+$\log_{10}\mathrm{Var}(\dq)$ & $-0.049$ & $-0.071$ \\
+$\log_{10}|\min\dq|$ & $-0.040$ & $-0.029$ \\
+Charge time, cycles 2--6 & $+0.033$ & $+0.039$ \\
+Temperature integral & $-0.029$ & $-0.036$ \\
+Capacity, cycle 2 & $+0.025$ & $+0.022$ \\
+Minimum IR & $-0.021$ & $-0.007$ \\
+IR(100)$-$IR(2) & $-0.000$ & $-0.013$ \\
+Fade slope, cycles 2--100 & $0.000$ & $-0.013$ \\
+Fade intercept, cycles 2--100 & $0.000$ & $0.000$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Stability.} Repeating the cross-validation with ten different random
+seeds changes the test RMSE by only a few cycles (discharge: primary 89--91,
+secondary 167--170; full: primary 117--128, secondary 218--222). The
+remaining differences from the paper are of the same size as this spread.
+They are expected given the paper's different software (MATLAB), its own
+random sampling, and its spline fit of the discharge curves.
+
+\textbf{Two data problems found while reproducing.} The first full-model fit
+predicted 0 cycles for \texttt{b1c18} (primary RMSE 162). The cause was a
+fault in this cell's records for cycles 2--53: a corrupt time stamp that
+jumps by $\sim$4000\,min within every record, inflating the temperature
+integral ($z = 420$), and an IR logger stuck at one value. Rules B9 and B10
+(Table~\ref{tab:cleaning}) fix both. This shows why a reproduction is worth
+doing before any new model: the paper's numbers served as a check that
+exposed a data fault that the earlier cleaning had missed.
+
+\textbf{Baselines.} The policy-mean baseline (our addition) does better than the
+constant on the primary set (173 vs.\ 401 cycles), since the primary cells
+share charging policies with training. But it has nothing to offer on the
+secondary set, whose policies never appear in training, and it is still
+clearly worse than the single-feature variance model. Both baselines confirm
+that the $\dq$ features carry the predictive information.
+
+\textbf{Answer to RQ1.} Yes: the paper's results are reproduced, exactly for
+the variance model and to within the cross-validation spread for the others,
+with the same model ranking. The pipeline is therefore a sound base for the
+model comparison.

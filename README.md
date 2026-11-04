@@ -15,6 +15,10 @@ src/clean.py           cleaning rules (authors' + ours) → dataset.pkl, splits.
 src/checks.py          verifies the data against the paper's Supplementary Table 9
 src/quality.py         per-batch data-quality report
 src/data.py            load_dataset(), curve(cell, field, n): always use this to read curves
+src/extras.py          per-cycle duration + temperature integral from raw traces
+src/features.py        the paper's 20 early-cycle features (SI Table 1) -> features.csv
+src/evaluate.py        metrics (RMSE, MAPE on cycles) and baselines
+src/reproduce.py       P2: reproduce the paper's Table 1 -> results/p2_reproduction.json
 tests/                 sanity tests (pytest)
 notebooks/01_data_explorer.ipynb   visualise any cell / batch / flagged cell
 data/processed/        caches (gitignored) + splits.json (tracked)
@@ -40,6 +44,9 @@ pip install -r requirements.txt
 python3 -m src.convert all     # .mat → data/processed/*_raw.pkl
 python3 -m src.clean           # → data/processed/dataset.pkl + splits.json
 python3 -m src.checks          # must print: ALL CHECKS PASSED
+python3 -m src.extras          # raw traces -> data/processed/extras.pkl
+python3 -m src.features        # -> data/processed/features.csv
+python3 -m src.reproduce       # P2 reproduction table vs the paper
 python3 -m pytest -q tests/
 ```
 

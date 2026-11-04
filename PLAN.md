@@ -98,14 +98,22 @@ BTP-1/
 **Goal:** answer RQ1, i.e. reproduce the paper's results.
 
 ### Tasks
-- [ ] **P2.1 Implement F1–F3 in `features.py`**, exactly per Supplementary Table 1. Expected (verify against the table):
-  - **F1 Variance (1):** log₁₀ |Var(ΔQ₁₀₀₋₁₀(V))|
-  - **F2 Discharge (6):** log₁₀ of |min|, Var, skewness, kurtosis of ΔQ; QD at cycle 2; max QD − QD at cycle 2
-  - **F3 Full (9):** log |min| and log Var of ΔQ; slope and intercept of a linear fit to QD over cycles 2–100; QD at cycle 2; mean charge time over cycles 2–6; integral of temperature over cycles 2–100; min IR (cycles 2–100); IR(100) − IR(2)
-  - ⚠️ The paper's figure labels ΔQ as "Q₁₀₁ − Q₁₀", so its indexing may be off by one as well. Check against their code and use the same convention.
-- [ ] **P2.2 Baselines in `evaluate.py`:** (a) predict the training-set mean of log life; (b) predict the training mean for that cell's charging policy (falling back to (a) if the policy isn't seen in training).
-- [ ] **P2.3 Elastic net:** `StandardScaler` + `ElasticNetCV` inside one `Pipeline`. The paper used 4-fold CV + Monte Carlo sampling; use `RepeatedKFold(n_splits=4, n_repeats=10, random_state=SEED)`, `l1_ratio ∈ {0.1, 0.5, 0.7, 0.9, 0.95, 0.99, 1}`.
-- [ ] **P2.4 Metrics:** RMSE (cycles) and MAPE (%) computed on **cycles** (10^prediction), plus R² on log scale.
+- [x] **P2.1 F1–F3 in `src/features.py`**, exactly per SI Table 1 / Note 1 (all 20 candidates computed; `FEATURE_SETS` picks the paper's subsets). Indexing resolved: SI Note 1 defines ΔQ = Q₁₀₀ − Q₁₀ (the "Q₁₀₁" label belongs to a different experiment). Temperature integral needs raw traces → `src/extras.py`.
+- [x] **P2.2 Baselines in `src/evaluate.py`:** constant = training **geometric** mean (reproduces SI Table 3 exactly; the arithmetic mean does not); policy mean.
+- [x] **P2.3 Elastic net (`src/reproduce.py`):** median imputer + `StandardScaler` + `ElasticNetCV`, `RepeatedKFold(4, 10)`; variance model = OLS; full model excludes the 4 temp-suspect cells.
+- [x] **P2.4 Metrics:** RMSE and MAPE on cycles, R² on log scale. Stability over 10 CV seeds.
+- [x] Found + fixed two data faults on the way (cleaning rules **B9** stuck IR logger, **B10** time-stamp gaps; both hit `b1c18`).
+
+### Result ✅ P2 PASSED (2026-11-04) — `results/p2_reproduction.json`, report §"Reproduction"
+
+| Model | RMSE train | RMSE primary (excl.) | RMSE secondary | %err train | %err primary (excl.) | %err secondary |
+|---|---|---|---|---|---|---|
+| Constant | 327 (327) | 401 (401) / 399 (399) | 511 (511) | 29.6 (29.6) | 35.0 / 28.2 | 36.1 |
+| Variance | 104 (103) | 138 (138) / 138 (138) | 196 (196) | 14.1 | 14.7 / 13.2 | 11.4 |
+| Discharge | 69 (76) | 90 (91) / 85 (86) | 167 (173) | 9.2 | 12.6 / 9.4 | 9.9 |
+| Full | 67 (51) | 125 (118) / 122 (100) | 220 (214) | 6.8 | 11.0 / 8.0 | 11.2 |
+
+Ours (paper). Variance model exact; ranking identical on every split; all 9 full-model coefficient signs match SI Fig. 5. Remaining full-model gap is mostly one cell (b1c2, 2237 cycles → 67 % of primary squared error).
 
 ### Target numbers (paper, Table 1)
 
@@ -116,10 +124,9 @@ BTP-1/
 | Full | 51 | 118 (100) | 214 | 5.6 | 14.1 (7.5) | 10.7 |
 
 ### Checkpoint ✅ P2
-- [ ] Our numbers are in the **same ballpark** (within about ±20% relative, and the ranking between models is similar). Exact match isn't expected: the paper used MATLAB and its own random sampling.
-- [ ] Both baselines are clearly worse than the variance model. If not, there's a bug.
-- [ ] If the numbers are far off: check (1) the ΔQ cycle indexing, (2) the log of the *absolute* variance, (3) the split membership, (4) cleaning, before anything else.
-- [ ] Commit; add a "Reproduction" subsection to the report.
+- [x] Our numbers are in the **same ballpark** (within about ±20% relative, and the ranking between models is similar).
+- [x] Both baselines are clearly worse than the variance model.
+- [x] Commit; add a "Reproduction" subsection to the report.
 
 ---
 

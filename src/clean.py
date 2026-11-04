@@ -53,6 +53,19 @@ B3_DROP = ["b3c37", "b3c2", "b3c23", "b3c32", "b3c42", "b3c43"]
 CHARGETIME_CAP = 19.99
 TEMP_SWING_MIN = 2.0   # deg C; mean (Tmax - Tmin) over cycles 2-100 below this -> probe suspect
 GLITCH_AH = 0.02
+IR_STUCK_RUN = 5       # identical consecutive IR readings that count as a stuck logger
+
+
+def _stuck_runs(x, min_run):
+    """Boolean mask of entries inside runs of >= min_run identical finite values."""
+    mask = np.zeros(len(x), bool)
+    start = 0
+    for i in range(1, len(x) + 1):
+        if i == len(x) or not (np.isfinite(x[i]) and x[i] == x[start]):
+            if np.isfinite(x[start]) and i - start >= min_run:
+                mask[start:i] = True
+            start = i
+    return mask
 
 
 def _load(name):
@@ -84,6 +97,12 @@ def _apply_our_rules(cell):
         if f != "cycle":
             s[f] = np.where(empty, np.nan, s[f])
     s["IR"] = np.where(s["IR"] == 0, np.nan, s["IR"])
+    # stuck IR logger: >= IR_STUCK_RUN identical consecutive readings are not
+    # measurements (b1c18 repeats 19.886 mOhm for cycles 2-53; no other cell
+    # repeats a value more than twice)
+    stuck = _stuck_runs(s["IR"], IR_STUCK_RUN)
+    cell["n_ir_stuck"] = int(stuck.sum())
+    s["IR"] = np.where(stuck, np.nan, s["IR"])
     s["chargetime"] = np.where(s["chargetime"] >= CHARGETIME_CAP, np.nan, s["chargetime"])
     qd = s["QD"].copy()
     med = _rolling_median(qd)
