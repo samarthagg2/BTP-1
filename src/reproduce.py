@@ -48,8 +48,13 @@ def make_model(name, seed=SEED):
                          ElasticNetCV(l1_ratio=L1_RATIOS, n_alphas=100, cv=cv, max_iter=200000))
 
 
+def uses_temperature(name):
+    """Sets containing the temperature integral leave out the 4 cells whose probe lost contact (paper)."""
+    return "temp_integral_2_100" in FEATURE_SETS[name]
+
+
 def subsets(df, name):
-    keep = ~df.temp_suspect if name == "full" else np.ones(len(df), bool)
+    keep = ~df.temp_suspect if uses_temperature(name) else np.ones(len(df), bool)
     d = df[keep]
     return {"train": d[d.split == "train"],
             "primary": d[d.split == "primary_test"],
@@ -91,7 +96,7 @@ def baselines(df):
 
 def predictions(df, model, name):
     cols = FEATURE_SETS[name]
-    d = df[~df.temp_suspect] if name == "full" else df
+    d = df[~df.temp_suspect] if uses_temperature(name) else df
     d = d[d.split != "unseen"]
     return {cid: float(10 ** p) for cid, p in zip(d.index, model.predict(d[cols].values))}
 

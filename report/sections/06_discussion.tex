@@ -1,14 +1,21 @@
+\FloatBarrier
 \section{Observations and Limitations}
 \label{sec:discussion}
 
 \subsection{Key observations}
+Observations 1 and 4 concern the 2018-02-20 batch analysed in
+Section~\ref{sec:eda}; observations 2 and 3 also hold for the paper's
+batches (Section~\ref{sec:reproduction}).
 \begin{enumerate}
-  \item \textbf{All policies take the same charge time.} Every policy
-  reaches 80\% SOC in 10\,min, so differences in lifetime reflect how the
-  current is distributed in time, not how fast the cell is charged overall.
+  \item \textbf{All policies take the same charge time.} In this batch every
+  policy reaches 80\% SOC in about 10\,min, so differences in lifetime
+  reflect how the current is distributed in time, not how fast the cell is
+  charged overall. (This is not true of every batch: in 2017-05-12 the
+  charge time ranges from 9.0 to 13.4\,min.)
   \item \textbf{Capacity alone is a poor early predictor.} Fade stays small
   and non-linear until the knee, so early capacity says little about
-  eventual lifetime.
+  eventual lifetime. On the paper's training cells, the capacity at cycle
+  100 correlates with log life at only $r=+0.47$.
   \item \textbf{Curve-shape features carry early information.} $\dq$ visibly
   separates short- and long-lived cells at cycle 100, long before EOL.
   \item \textbf{The test procedure dominates.} Whatever
@@ -19,15 +26,21 @@
 
 \subsection{Limitations of the current analysis}
 \begin{itemize}
-  \item \textbf{Small sample, two groups.} With 39 labelled cells in two
-  well-separated clusters, a model can score well just by telling the
-  groups apart, without predicting differences within a group.
-  \item \textbf{The batch differs from the paper's.} The 2018-02-20 batch is
-  not part of the training or test sets of~\cite{severson2019}, so results
-  cannot be compared one to one.
+  \item \textbf{Small sample, two groups.} The unseen batch has 39 labelled
+  cells in two well-separated clusters, so a model can score well on it just
+  by telling the groups apart, without predicting differences within a
+  group. Results on this batch (RQ5) must therefore also be reported within
+  each group.
+  \item \textbf{Batch effects in the training data.} The 41 training cells
+  come from two batches with different rest periods and different typical
+  lives. Some features (temperature integral, charge time) partly encode the
+  batch or the policy rather than the state of the cell
+  (Section~\ref{sec:reproduction}).
   \item \textbf{The meaning of \texttt{-newstructure} is unknown.} The data
   does not record what was changed. Until this is clarified, these cells
   should be modelled separately or given an explicit indicator feature.
   \item \textbf{Noise.} Single-cycle glitches and the 20\,min charge-time
-  cap need consistent handling before features are extracted.
+  cap are handled by rules B3--B5. The $\dq$ features still use only two
+  cycles (10 and 100), so noise in either cycle passes straight into
+  them.
 \end{itemize}

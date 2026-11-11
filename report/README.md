@@ -14,10 +14,12 @@ report/
 │   ├── 03_dataset.tex     # setup, protocol, policies, groups, fields
 │   ├── 04_pipeline.tex    # mat -> pkl, cleaning, indexing pitfalls
 │   ├── 05_eda.tex         # figures + correlation analysis
+│   ├── 05b_reproduction.tex  # P2: features, models, results vs paper
+│   ├── 05c_physics.tex       # P3: physics-informed feature screening, F4
 │   ├── 06_discussion.tex
 │   └── 07_plan.tex
 ├── figures/              # vector PDFs + stats.json (generated)
-├── scripts/make_figures.py
+├── scripts/              # make_figures.py, make_cleaning_figures.py, make_p2_figures.py, make_p3_figures.py
 └── notes.md              # scratch area: dump ideas/results here before writing them up
 ```
 

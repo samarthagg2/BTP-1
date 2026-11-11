@@ -131,31 +131,36 @@ Ours (paper). Variance model exact; ranking identical on every split; all 9 full
 ---
 
 ## 4. Phase P3 — Physics-informed features F4 (weeks 3–4)
-
-**Goal:** a 4th feature set grounded in degradation physics.
-
-| Feature | Exact definition | Mechanism |
-|---|---|---|
-| `dqdv_peak_h_delta` | Smooth dQ/dV (Savitzky–Golay, window 51, order 3) on the `Vdlin` grid; within **3.0–3.3 V** find the main peak (min, since dQ/dV < 0); height = \|peak\|; feature = h(cycle 100) − h(cycle 10) | Loss of active material / lithium |
-| `dqdv_peak_v_delta` | Voltage of that peak, cycle 100 − cycle 10 | Rise in resistance (overpotential) |
-| `dqdv_peak_area_delta` | ∫ \|dQ/dV\| dV over 3.0–3.3 V, cycle 100 − cycle 10 | Capacity in that phase |
-| `ir_sqrt_slope` | Least-squares slope of IR against √N, cycles 2–100, NaNs dropped | SEI growth ∝ √t |
-| `temp_rise` | Mean of (Tmax − Tmin) over cycles 2–100 *or* the slope of Tmax over cycles 2–100 (pick one, document it) | Joule heating ∝ resistance |
-
-**F4 = F3 + these 5 features** (14 total).
-
+**Goal:** a 4th feature set grounded in degradation physics, judged on quality, not quantity (RQ3, part 1).
+### Selection rules (training cells only; test sets untouched)
+1. physical mechanism; 2. information beyond `dq_log_var` (within-batch t given ΔQ, paired CV gain);
+3. same sign within b1 and b2 (otherwise a batch proxy); 4. gain beyond a batch label; 5. measurable within 100 cycles.
 ### Tasks
-- [ ] Implement each feature as its own function with a docstring giving its definition.
-- [ ] Plot each feature against log cycle life on the **training set only** (Spearman ρ).
-- [ ] Check correlations among F4 features; drop or merge any pair with \|r\| > 0.95.
-
-### Checkpoint ✅ P3
-- [ ] No NaN/inf in F4 for any cell (or a documented imputation rule: training median).
-- [ ] Peak detection checked visually on ~10 cells (the peak marker lands on the real peak).
-- [ ] Commit; add a "Physics-informed features" subsection to the report.
-
+- [x] P3.1 Screening module `src/screen_physics.py` → `results/p3_screening.json/.csv` (19 candidates, ~3 min, reads raw traces).
+- [x] P3.2 F4 implemented in `src/features.py` (`margin_rate`, `overhang_after10`; `FEATURE_SETS["physics"]`).
+- [x] P3.3 Within-batch correlation table for every candidate; robustness of the overhang feature to the smoothing window and to the b1 test pause (cycles 12–13).
+- [x] P3.4 Nested CV on training cells: F1/F2/F3/F4/F3+F4 with the paper's elastic-net protocol.
+- [x] P3.5 Notebook `03_physics_features.ipynb`; report section "Physics-informed features"; figures `report/scripts/make_p3_figures.py`.
+- [x] P3.6 Tests: F4 finite for all 163 cells; margin_rate identity; no data after cycle 100 used.
+### Result ✅ P3 DONE (2026-11-07)
+| Finding | Evidence (training cells) |
+|---|---|
+| Mechanism features (dQ/dV peaks, CV-hold growth, ΔQ(2 V), IR √N, heating) add nothing beyond ΔQ | all negative CV gain on top of `dq_log_var` |
+| Coulombic efficiency not measurable | median QD/QC slightly > 1 |
+| Fade curvature, policy plating index, fast-charge temperature, cycle duration = batch proxies | sign flips or vanishes within batch |
+| ΔQ amplitude grows linearly in cycles 10–100 | power-law exponent median 1.01 (IQR 0.98–1.11) |
+| `margin_rate` = log10((QD2 − 0.88)/sd ΔQ) | beats `dq_log_var` in 96% of folds (−9% error); strong in b1 (t +5.3), none in b2 |
+| `overhang_after10` = capacity rise cycle 10 → early peak | t −3.9 (b1), −1.6 (b2) given ΔQ; +11% beyond batch label; robust to window; not a pause artefact |
+| **F4 = [margin_rate, overhang_after10]** | nested CV: RMSE log 0.0509 / 77 cycles vs F3 (9 features) 0.0510 / 89; F3+F4 no better |
+| `-newstructure` = 5-s rests (as b3) | step breakdown; rest time / fast-charge temperature kept as hypotheses for P5 |
+**Test sets (used once, F4 frozen; `python3 -m src.p3_evaluate`):** RMSE/%err primary · secondary —
+discharge 90/12.6% · 167/9.9%; full 125/11.0% · 220/11.2%; **F4 114/9.9% · 170/11.1%** (seed range 113–116 · 170–171).
+F4 beats full on both test sets, ties discharge on secondary, worse RMSE than discharge on primary because of b1c2
+(2237 cycles, outside training range; 58% of F4's squared error). In training range (b1c2, b2c1 removed): full 71, F4 75,
+discharge 86. Paired bootstrap: only full-vs-discharge on secondary is clearly resolved (+48, CI +7 to +79).
+F3+F4 (11 features): primary 122, secondary 205 — slightly better than F3, still far worse than F4 alone on secondary: the elastic net keeps the batch-proxy features (temperature integral, charge time) and shrinks overhang_after10 to ~0.
+Caveats: 19 candidates on 41 cells → optimistic (training CV showed F4 > discharge; tests do not); b2 evidence weak (narrow lives); overhang behaviour batch-specific (u1 rises late) → check in P4/P5.
 ---
-
 ## 5. Phase P4 — Model comparison (weeks 5–7)
 
 **Goal:** answer RQ2–RQ4.

@@ -2,11 +2,12 @@
 Predicting how long a lithium-ion cell will last, using only its first few
 charge--discharge cycles, would shorten battery development and validation
 from months to days. This project follows the data-driven approach of
-Severson \textit{et al.}~\cite{severson2019}. We work with a publicly
-released batch of 47 commercial LFP/graphite cells (A123 APR18650M1A,
-1.1\,Ah). Each cell was cycled to failure under one of several two-step
-fast-charging policies, all of which charge from 0 to 80\% state of charge
-in 10 minutes. This interim report documents the experiment and the data.
+Severson \textit{et al.}~\cite{severson2019}, using the public dataset of
+commercial LFP/graphite cells (A123 APR18650M1A, 1.1\,Ah) cycled to failure
+under two-step fast-charging policies. This interim report documents the
+experiment and the data, using as the example a batch of 47 cells
+(2018-02-20) that is not part of the original study and whose policies all
+charge from 0 to 80\% state of charge in 10 minutes.
 It describes the conversion of the raw MATLAB files into a Python data
 structure and presents an exploratory analysis of capacity fade, internal
 resistance, temperature and the discharge voltage curve. Of the 47 cells,
@@ -16,8 +17,23 @@ distinct groups: standard cells (392--514 cycles) and cells marked
 \cite{severson2019}, the variance of $\dq$, is strongly correlated with log
 cycle life across all cells (Pearson $r=-0.92$). Within each group,
 however, the correlation is much weaker ($r=-0.38$ and $r=-0.27$). The
-report then sets out the problem statement and the plan for feature
-engineering, model training and validation.
+report then describes a data pipeline for all four public batches (163
+labelled cells) and uses it to reproduce the three models
+of~\cite{severson2019}. The single-feature variance model matches the
+published errors to within one cycle, and the six- and nine-feature
+elastic-net models agree to within the cross-validation spread, with the
+same model ranking (e.g.\ 90 vs.\ 91 cycles RMSE on the primary test set
+for the discharge model). The reproduction also exposed a data fault in one
+cell that had passed the initial cleaning. Screening 19 physics-informed
+candidates showed that most mechanism features are already contained in the
+discharge-curve feature, and that several apparent predictors only identify
+the test batch. Two features survive: the capacity margin to end of life
+divided by the degradation rate, and the early capacity rise caused by the
+anode overhang. With the paper's model, these two features beat the
+nine-feature model on both test sets (114 vs.\ 125 and 170 vs.\ 220 cycles
+RMSE) and equal the six-feature discharge model on the secondary set; they do
+not clearly beat it on the primary set, mainly because they under-predict the
+longest-lived cell.
 The project's main study compares seven machine-learning models (elastic
 net, PLS, SVR, Gaussian process, random forest, XGBoost and an MLP) on four
 feature sets, from purely data-driven to physics-informed. All models use

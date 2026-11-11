@@ -19,8 +19,12 @@ src/extras.py          per-cycle duration + temperature integral from raw traces
 src/features.py        the paper's 20 early-cycle features (SI Table 1) -> features.csv
 src/evaluate.py        metrics (RMSE, MAPE on cycles) and baselines
 src/reproduce.py       P2: reproduce the paper's Table 1 -> results/p2_reproduction.json
+src/screen_physics.py  P3: screen physics-informed candidates -> results/p3_screening.json
+src/p3_evaluate.py     P3: F4 with the paper's model on the test sets -> results/p3_test_eval.json
 tests/                 sanity tests (pytest)
 notebooks/01_data_explorer.ipynb   visualise any cell / batch / flagged cell
+notebooks/02_reproduction.ipynb    Phase 2 walkthrough: ΔQ, features, models, results vs paper
+notebooks/03_physics_features.ipynb  Phase 3: physics feature screening, F4
 data/processed/        caches (gitignored) + splits.json (tracked)
 data/reference/        ground truth parsed from the paper's SI (tracked)
 report/                IEEE-format LaTeX report (Overleaf); see report/README.md
@@ -47,6 +51,8 @@ python3 -m src.checks          # must print: ALL CHECKS PASSED
 python3 -m src.extras          # raw traces -> data/processed/extras.pkl
 python3 -m src.features        # -> data/processed/features.csv
 python3 -m src.reproduce       # P2 reproduction table vs the paper
+python3 -m src.screen_physics  # P3 physics-feature screening (~3 min)
+python3 -m src.p3_evaluate     # P3 F4 test-set evaluation (F4 frozen)
 python3 -m pytest -q tests/
 ```
 

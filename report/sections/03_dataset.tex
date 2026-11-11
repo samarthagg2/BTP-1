@@ -7,12 +7,14 @@ Severson \textit{et al.}~\cite{severson2019,matr_data} by MIT, Stanford
 University and the Toyota Research Institute. The original study used 124
 cells cycled under 72 fast-charging policies, with lifetimes from 150 to
 2300 cycles, spread over three batches (dated 2017-05-12, 2017-06-30 and
-2018-04-12). The batch analysed in this report is a different one, dated
-\textbf{2018-02-20}, from the same repository and cell model. It contains
-47 cells and is referred to here as the \emph{unseen} batch \texttt{u1} (cell keys
-\texttt{u1c0}--\texttt{u1c46}). Because it is \emph{not} one of the three
-batches used in~\cite{severson2019}, numbers from that paper are not
-directly comparable to ours.
+2018-04-12). This project uses these three batches and a fourth one from
+the same repository and cell model, dated \textbf{2018-02-20}
+(Table~\ref{tab:batches}). The fourth batch contains 47 cells and is
+referred to as the \emph{unseen} batch \texttt{u1} (cell keys
+\texttt{u1c0}--\texttt{u1c46}), because it is \emph{not} used
+in~\cite{severson2019}. This section and the exploratory analysis
+(Section~\ref{sec:eda}) describe the experiment using this batch as the
+example; Section~\ref{sec:pipeline} covers all four batches.
 
 \subsection{Experimental setup}
 Each cell ran on its own channel of a multichannel battery tester, inside a
@@ -174,7 +176,7 @@ Field & Meaning & Unit & Example / range \\
 \multicolumn{4}{@{}l}{\textit{Per-cycle summary (length = no.\ of cycles)}}\\
 \texttt{QD} & discharge capacity & Ah & 1.100 $\rightarrow$ 0.827 \\
 \texttt{QC} & charge capacity & Ah & 1.093 $\rightarrow$ 0.858 \\
-\texttt{IR} & internal resistance & $\Omega$ & 0.0176 $\rightarrow$ 0.0217 \\
+\texttt{IR} & internal resistance & $\Omega$ & 0.0176 $\rightarrow$ 0.0216 \\
 \texttt{Tavg/Tmin/Tmax} & cell temperature & \textdegree C & $T_\text{max}$: 34.9 $\rightarrow$ 38.7 \\
 \texttt{chargetime} & time to 80\% SOC & min & 10.17 \\
 \texttt{cycle} & cycle number & -- & 1 $\rightarrow$ 496 \\

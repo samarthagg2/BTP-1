@@ -18,6 +18,17 @@ Implementation choices where SI Note 1 is ambiguous (documented in the report):
   * temperature integral = sum over cycles 2..100 of trapz(T, t) (degC*min),
     computed from raw traces by src.extras.
 
+Phase 3 adds two physics-informed features (PHYSICS_FEATURES; selection in
+src/screen_physics.py and report Section "Physics-informed features"):
+  * margin_rate      = log10((QD(2) - 0.88 Ah) / sd(ΔQ_100-10)): capacity budget
+                       left before EOL divided by the degradation rate. The ΔQ
+                       amplitude grows linearly over cycles 10-100 (median power-law
+                       exponent 1.01), so a constant-rate budget is appropriate.
+  * overhang_after10 = rise of capacity from cycle 10 to its early peak (mAh):
+                       lithium returning from the anode overhang inside the ΔQ
+                       window adds charge at low voltage and partly hides the
+                       degradation in ΔQ; this feature corrects for it.
+
 Usage:  python3 -m src.features      -> data/processed/features.csv
 """
 import pickle
@@ -25,12 +36,15 @@ import pickle
 import numpy as np
 import pandas as pd
 
+from config import EOL_AH
+
 from config import PROC_DIR
 from src.data import curve, load_dataset, load_splits
 
 N_LO, N_HI = 10, 100          # ΔQ cycles
 C_FIRST, C_LAST = 2, 100      # summary-feature window
 MAX_FALLBACK = 3
+SMOOTH_WIN = 9                # rolling-median window (cycles) for the capacity peak
 
 FEATURE_SETS = {
     "variance": ["dq_log_var"],
@@ -39,7 +53,13 @@ FEATURE_SETS = {
     "full": ["dq_log_min", "dq_log_var", "qd_slope_2_100", "qd_icpt_2_100", "qd_2",
              "chargetime_avg_2_6", "temp_integral_2_100", "ir_min_2_100",
              "ir_100_minus_2"],
+    # F4 (Phase 3): physics-informed set, see src/screen_physics.py
+    "physics": ["margin_rate", "overhang_after10"],
+    "full_physics": ["dq_log_min", "dq_log_var", "qd_slope_2_100", "qd_icpt_2_100", "qd_2",
+                     "chargetime_avg_2_6", "temp_integral_2_100", "ir_min_2_100",
+                     "ir_100_minus_2", "margin_rate", "overhang_after10"],
 }
+PHYSICS_FEATURES = ["margin_rate", "overhang_after10"]
 ALL_CANDIDATES = [
     "dq_log_min", "dq_log_mean", "dq_log_var", "dq_log_skew", "dq_log_kurt", "dq_log_2v",
     "qd_slope_2_100", "qd_icpt_2_100", "qd_slope_91_100", "qd_icpt_91_100",
@@ -140,8 +160,35 @@ def other_features(cell, extras):
         }
 
 
+def margin_rate(cell, hi=N_HI, lo=N_LO):
+    """log10 of (capacity budget to EOL) / (degradation rate).
+    budget = QD(2) - 0.88 Ah (EOL is an absolute threshold); rate = standard
+    deviation of ΔQ_hi-lo(V) over the voltage grid (Ah per hi-lo cycles).
+    Equivalent to log10(QD(2) - 0.88) - 0.5 * dq_log_var."""
+    budget = value_at(cell, "QD", C_FIRST) - EOL_AH
+    return float(np.log10(budget / np.std(delta_q(cell, hi, lo), ddof=1)))
+
+
+def overhang_after10(cell, n_max=C_LAST, win=SMOOTH_WIN):
+    """Capacity rise (mAh) from cycle 10 to the early peak, cycles 2..n_max.
+    QD_clean is smoothed with a centred rolling median of `win` cycles; the
+    peak is the maximum of the smoothed curve; the cycle-10 level is the median
+    of cycles 9-11. Negative values (no rise after cycle 10) are clipped to 0."""
+    cyc, q = _window(cell, "QD", C_FIRST, n_max)
+    ok = np.isfinite(q)
+    cyc, q = cyc[ok], q[ok]
+    smooth = pd.Series(q).rolling(win, center=True, min_periods=max(3, win // 2)).median().to_numpy()
+    q10 = np.nanmedian(q[(cyc >= 9) & (cyc <= 11)])
+    return float(1000 * max(np.nanmax(smooth) - q10, 0.0))
+
+
+def physics_features(cell):
+    return {"margin_rate": margin_rate(cell), "overhang_after10": overhang_after10(cell)}
+
+
 def cell_features(cell, extras):
-    return {**dq_features(cell), **qd_features(cell), **other_features(cell, extras)}
+    return {**dq_features(cell), **qd_features(cell), **other_features(cell, extras),
+            **physics_features(cell)}
 
 
 def build(save=True):
@@ -159,7 +206,8 @@ def build(save=True):
     df = pd.DataFrame(rows).set_index("cell")
     if save:
         df.to_csv(PROC_DIR / "features.csv")
-        print(f"wrote {PROC_DIR / 'features.csv'}  ({len(df)} cells x {len(ALL_CANDIDATES)} features)")
+        print(f"wrote {PROC_DIR / 'features.csv'}  ({len(df)} cells x "
+              f"{len(ALL_CANDIDATES)} paper + {len(PHYSICS_FEATURES)} physics features)")
     return df
 
 
@@ -169,5 +217,5 @@ def load_features():
 
 if __name__ == "__main__":
     df = build()
-    nan = df[ALL_CANDIDATES].isna().sum()
+    nan = df[ALL_CANDIDATES + PHYSICS_FEATURES].isna().sum()
     print("NaN counts (non-zero):", nan[nan > 0].to_dict() or "none")

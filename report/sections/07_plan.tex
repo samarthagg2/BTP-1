@@ -12,6 +12,15 @@
   \item First computation of the $\dq$ feature and its correlation with
   cycle life.
   \item Problem statement finalised (Section~\ref{sec:problem}).
+  \item \textbf{P1:} all four batches converted and cleaned (rules A1--A4,
+  B1--B10); the 124 paper cells match the paper's Supplementary Table~9
+  (Section~\ref{sec:pipeline}).
+  \item \textbf{P2:} the 20 candidate features, the baselines and the
+  paper's three models implemented; the paper's Table~1 reproduced
+  (Section~\ref{sec:reproduction}).
+  \item \textbf{P3:} 19 physics-informed candidates screened on the
+  training cells; feature set F4 fixed at two features
+  (Section~\ref{sec:physics}).
 \end{itemize}
 
 \subsection{Phases}
@@ -25,8 +34,9 @@
   \item \textbf{Baseline (P2).} Implement feature sets F1--F3, the
   mean and policy-mean baselines, and the elastic-net models; reproduce the
   errors reported in~\cite{severson2019} (RQ1).
-  \item \textbf{Physics features (P3).} Implement F4: dQ/dV peak
-  height, position and area; resistance against $\sqrt{N}$; temperature rise.
+  \item \textbf{Physics features (P3), done.} Screen physics-based
+  candidates on the training cells; F4 = margin/rate and overhang
+  rise (Section~\ref{sec:physics}).
   \item \textbf{Model comparison (P4).} Run all 7 models on all 4 feature
   sets with cross-validated tuning and repeated seeds (RQ2, RQ3). Run the
   early-prediction study over $N$ (RQ4).
