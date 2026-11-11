@@ -34,10 +34,20 @@ nine-feature model on both test sets (114 vs.\ 125 and 170 vs.\ 220 cycles
 RMSE) and equal the six-feature discharge model on the secondary set; they do
 not clearly beat it on the primary set, mainly because they under-predict the
 longest-lived cell.
-The project's main study compares seven machine-learning models (elastic
-net, PLS, SVR, Gaussian process, random forest, XGBoost and an MLP) on four
-feature sets, from purely data-driven to physics-informed. All models use
-one common evaluation protocol and are also tested on an unseen batch.
+A comparison with four other model types shows that,
+with 41 training cells, none beats the paper's regularised linear model on a
+new batch: a Gaussian process, support vector regression and additive splines
+are better within the training batches but not on the secondary batch, and
+partial least squares on the whole discharge curve fails there because it
+relies on narrow, procedure-dependent features. About 40 cycles suffice for a
+rough prediction, 100 cycles are clearly better, and more cycles bring no
+gain. On a second unseen batch, not used in the original study, the standard
+cells are predicted to within 5--10\,\% by several models, while cells run
+with a different procedure are over-predicted by 17--50\,\% by every model;
+the model that transfers best differs between the two new batches. SHAP
+analysis shows that the models lean on the features that lie outside the
+training range, and that a Gaussian process gains over the linear model on the
+unseen batch because it learned a saturating effect of the overhang rise.
 \end{abstract}
 
 \begin{IEEEkeywords}

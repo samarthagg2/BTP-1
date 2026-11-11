@@ -12,7 +12,7 @@ SEED = 42
 NOMINAL_CAPACITY_AH = 1.1
 EOL_AH = 0.88                  # 80 % of nominal
 N_EARLY = 100                  # default number of early cycles for features
-N_CACHE = 120                  # cycle records cached per cell (covers cycle 100 with margin)
+N_CACHE = 160                  # cycle records cached per cell (covers cycle 150 with margin; RQ4 horizon study)
 VDLIN = np.linspace(3.5, 2.0, 1000)   # voltage grid of Qdlin / Tdlin / dQdV
 
 # Raw batch files (data.matr.io/1) and the short names used throughout

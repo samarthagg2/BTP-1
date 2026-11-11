@@ -21,6 +21,11 @@
   \item \textbf{P3:} 19 physics-informed candidates screened on the
   training cells; feature set F4 fixed at two features
   (Section~\ref{sec:physics}).
+  \item \textbf{P4:} PLS, Gaussian process, SVR and additive splines
+  compared with the elastic net; prediction error for 20--150 early cycles
+  (Section~\ref{sec:models}).
+  \item \textbf{P5:} frozen models applied to the unseen batch with five
+  pre-registered hypotheses; SHAP interpretation (Section~\ref{sec:unseen}).
 \end{itemize}
 
 \subsection{Phases}
@@ -37,11 +42,11 @@
   \item \textbf{Physics features (P3), done.} Screen physics-based
   candidates on the training cells; F4 = margin/rate and overhang
   rise (Section~\ref{sec:physics}).
-  \item \textbf{Model comparison (P4).} Run all 7 models on all 4 feature
-  sets with cross-validated tuning and repeated seeds (RQ2, RQ3). Run the
-  early-prediction study over $N$ (RQ4).
-  \item \textbf{Generalisation and interpretation (P5).} Evaluate on the
-  2018-02-20 batch (RQ5); compute SHAP values and permutation importance.
+  \item \textbf{Model comparison (P4), done.} PLS, Gaussian process, SVR and
+  additive splines against the elastic net; error against the number of
+  early cycles (Section~\ref{sec:models}).
+  \item \textbf{Generalisation and interpretation (P5), done.} Unseen batch
+  (RQ5) and SHAP analysis (Section~\ref{sec:unseen}).
   \item \textbf{Write-up (P6).} Final report and presentation.
 \end{enumerate}
 

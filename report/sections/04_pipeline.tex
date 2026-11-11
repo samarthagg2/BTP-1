@@ -42,9 +42,10 @@ For every cell it keeps
   \item all per-cycle summary arrays (QD, QC, IR, $T_\text{avg}$,
   $T_\text{min}$, $T_\text{max}$, charge time, cycle number);
   \item the interpolated curves \texttt{Qdlin}, \texttt{Tdlin} and
-  \texttt{dQdV} (1000 points each) for the first 120 cycle records only.
+  \texttt{dQdV} (1000 points each) for the first 160 cycle records only
+  (enough for predictions from up to 150 cycles, Section~\ref{sec:models}).
 \end{itemize}
-This shrinks each batch from 2--3\,GB to about 70\,MB, and conversion takes
+This shrinks each batch from 2--3\,GB to about 90\,MB, and conversion takes
 seconds. Barcodes and channel IDs are stored as MATLAB \texttt{string}
 objects that \texttt{h5py} cannot decode. They are not needed, because
 cells are identified by batch and index.
@@ -229,20 +230,22 @@ so the whole dataset can be rebuilt from the raw files with three commands
               minimum width=0.80\columnwidth, inner sep=3pt},
   arr/.style={-{Stealth[length=2mm]}, thick}]
   \node[box] (mat) {4 raw \texttt{.mat} batches (MATLAB v7.3 / HDF5), 2--3\,GB each};
-  \node[box, below=of mat] (pkl) {\texttt{src/convert.py} $\rightarrow$ caches, about 70\,MB per batch\\
-        (summaries + \texttt{Qdlin}/\texttt{Tdlin}/\texttt{dQdV}, first 120 records)};
+  \node[box, below=of mat] (pkl) {\texttt{src/convert.py} $\rightarrow$ caches, about 90\,MB per batch\\
+        (summaries + \texttt{Qdlin}/\texttt{Tdlin}/\texttt{dQdV}, first 160 records)};
   \node[box, below=of pkl] (clean) {\texttt{src/clean.py}: rules A1--A4 + B1--B10\\
         $\rightarrow$ \texttt{dataset.pkl} + \texttt{splits.json} (41/43/40 + 39)};
   \node[box, below=of clean] (chk) {\texttt{src/checks.py}: verify against SI Table 9 \checkmark};
   \node[box, below=of chk] (feat) {\texttt{src/features.py}: 20 features, cycles $\le 100$ $\rightarrow$ \texttt{features.csv}};
   \node[box, below=of feat] (model) {\texttt{src/reproduce.py}: paper's 3 models, reproduced (Sec.~\ref{sec:reproduction}) \checkmark};
-  \node[box, below=of model, dashed] (next) {Physics features F4, model comparison \textit{(planned)}};
+  \node[box, below=of model] (f4) {\texttt{src/screen\_physics.py}, \texttt{src/p4\_*.py}: F4, model comparison \checkmark};
+  \node[box, below=of f4, dashed] (next) {Unseen batch, interpretation \textit{(planned)}};
   \draw[arr] (mat) -- (pkl);
   \draw[arr] (pkl) -- (clean);
   \draw[arr] (clean) -- (chk);
   \draw[arr] (chk) -- (feat);
   \draw[arr] (feat) -- (model);
-  \draw[arr] (model) -- (next);
+  \draw[arr] (model) -- (f4);
+  \draw[arr] (f4) -- (next);
 \end{tikzpicture}
 \caption{Data pipeline. Solid boxes are complete; the dashed box is
 planned.}

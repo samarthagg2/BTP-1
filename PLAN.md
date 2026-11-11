@@ -161,54 +161,49 @@ discharge 86. Paired bootstrap: only full-vs-discharge on secondary is clearly r
 F3+F4 (11 features): primary 122, secondary 205 — slightly better than F3, still far worse than F4 alone on secondary: the elastic net keeps the batch-proxy features (temperature integral, charge time) and shrinks overhang_after10 to ~0.
 Caveats: 19 candidates on 41 cells → optimistic (training CV showed F4 > discharge; tests do not); b2 evidence weak (narrow lives); overhang behaviour batch-specific (u1 rises late) → check in P4/P5.
 ---
-## 5. Phase P4 — Model comparison (weeks 5–7)
-
-**Goal:** answer RQ2–RQ4.
-
-### Hyperparameter search (on the training set only, `RepeatedKFold(4, 5)`)
-
-| Model | Library | Search space |
-|---|---|---|
-| Elastic net | sklearn `ElasticNet` | α: logspace(−4, 1, 30); l1_ratio: {0.1, .5, .7, .9, .95, .99, 1} |
-| PLS | sklearn `PLSRegression` | n_components: 1 … min(p, 8) |
-| SVR | sklearn `SVR(kernel='rbf')` | C: logspace(−2, 3, 12); γ: logspace(−4, 1, 12); ε: {0.01, 0.05, 0.1} |
-| Gaussian process | sklearn `GaussianProcessRegressor` | Kernel `C·RBF(ARD) + WhiteKernel`; `n_restarts_optimizer=10`; `normalize_y=True` (fit by marginal likelihood, no grid) |
-| Random forest | sklearn `RandomForestRegressor(n_estimators=500)` | max_depth {None, 3, 5, 8}; min_samples_leaf {1, 2, 4, 8}; max_features {sqrt, 0.5, 1.0} |
-| XGBoost | `xgboost.XGBRegressor` | `RandomizedSearchCV`, 60 iterations: n_estimators 100–800; max_depth 2–4; learning_rate 0.01–0.2; subsample 0.6–1; colsample 0.6–1; reg_lambda 0.1–10 |
-| MLP | sklearn `MLPRegressor(solver='lbfgs', max_iter=5000)` | hidden {(8,), (16,), (32,), (16, 16)}; alpha logspace(−4, 1, 6) |
-
-- **Every model** sits inside `Pipeline([StandardScaler(), model])`, so scaling is learned on the training folds only.
-- Target: log₁₀(cycle life) for all models.
-
+## 5. Phase P4 — Model comparison (RQ2, RQ4)
+**Scope (decided 2026-11-11):** 2–3 model types different from the paper's; no trees or neural networks (41 cells → memorisation; trees cannot extrapolate beyond the training life range).
+### Protocol
+Variants and settings chosen by nested CV on the training cells only; every registered configuration evaluated **once** on the test sets, all reported; u1 untouched (P5). Scores: official RMSE/%, in-range RMSE (test cells inside 300–2160 cycles), paired bootstrap vs elastic net on the same features.
 ### Tasks
-- [ ] **P4.1 `run_experiments.py`:** loop over {F1, F2, F3, F4} × 7 models × seeds {0…9} (seeds only matter for RF, XGB and MLP; the others run once). Log each run to `results/runs.csv` with columns:
-  `feature_set, model, seed, N, split, rmse, mape, r2, best_params, timestamp`
-- [ ] **P4.2 Results table:** mean ± std over seeds for each (model, feature set) on primary and secondary. Bold the best result per column.
-- [ ] **P4.3 Early-horizon study (RQ4):** recompute features for N ∈ {20, 40, 60, 80, 100} (ΔQ = Q_N − Q_10; for N = 20, also try Q_20 − Q_5) and rerun the **best 3 models** on the **best 2 feature sets**. Plot MAPE against N.
-- [ ] **P4.4 Optional, only if ahead of schedule:** (a) XGBoost with `monotone_constraints` on the ΔQ variance (more variance ⇒ shorter life); (b) PLS or a 1D CNN on the raw 1000-point ΔQ curve.
-
-### Checkpoint ✅ P4
-- [ ] Every (model, feature set) beats the **policy-mean baseline**; anything that doesn't is reported as such.
-- [ ] Training RMSE ≪ test RMSE for a model? → it's overfitting; note it in the report (expected for RF/MLP on F4).
-- [ ] The results table is generated from `runs.csv` by `03_results.ipynb`, with no hand-copied numbers.
-- [ ] Commit; tables and figures are in the report.
-
+- [x] P4.1 PLS on the whole ΔQ curve (`src/pls.py`, `src/p4_pls.py`): raw / asinh / amplitude+shape / F4+shape (block-scaled). Pre-registered: asinh (primary), F4+shape (secondary).
+- [x] P4.2 GP (linear + Matern ARD + noise; bounded: length-scale ≥ 1 SD, noise floor), SVR (RBF), additive splines (GAM) on F2 and F4 (`src/models.py`, `src/p4_models.py`).
+- [x] P4.3 Screened extra feature ΔV(Q) (voltage drop at fixed charge): ρ 0.99 with dq_log_var, no gain → rejected.
+- [x] P4.4 Horizon study N = 20…150 (`src/horizon.py`; cache extended to 160 cycles, features at N = 100 unchanged) incl. GP-F4.
+- [x] P4.5 Notebook `04_model_comparison.ipynb`; report Section IX; figures `make_p4_figures.py`; tests `tests/test_models.py`.
+### Result ✅ P4 DONE (2026-11-11)
+| Config | Primary | In range | Secondary | Bootstrap vs EN (prim / sec) |
+|---|---|---|---|---|
+| EN F2 / EN F4 | 90 / 114 | 86 / 75 | **167** / 170 | — |
+| GP F2 / **GP F4** | **85** / 103 | 78 / **64** | 174 / 180 | −7 n.s. / **−11 [−21,−3]** ; +8, +9 n.s. |
+| SVR F2 / F4 | 176 / 107 | 65 / 76 | 169 / 190 | **−20 [−49,−3]** / 0 ; n.s. |
+| GAM F2 / F4 | 242 / 92 | 79 / 66 | 169 / 207 | n.s. |
+| PLS curve / F4+shape | 138 / 151 | 104 / 117 | **3431** / 285 | secondary significantly worse |
+- RQ2: no model beats the linear model on the new batch; non-linear better within training batches; SVR/GAM break outside training range (b1c2: 1186 / 742); PLS fails on new batch (narrow weight at the 3.15 V plateau edge, which shifts in b3).
+- GP-F4: calibrated 95% intervals on primary (95%), overconfident on secondary (85%).
+- RQ4: ≤30 cycles only policy/batch info helps; 40–80 ≈ half the baseline error; 100 clearly better; >100 no gain. Paper's log|·| features blow up at N = 50 (b1c0 → 13,393 cycles).
+- Caveat: 8 new configurations + horizon sweep on the same test sets → only bootstrap-resolved differences count.
 ---
-
-## 6. Phase P5 — Generalisation & interpretation (week 8)
-
+## 6. Phase P5 — Unseen batch & interpretation (RQ5)
+### Protocol
+Frozen P2–P4 models (no refit/re-tune) applied once to u1 (39 cells: 30 standard, 9 newstructure). Five hypotheses with decision rules written into `src/p5_unseen.py` **before** any u1 life was used.
 ### Tasks
-- [ ] **P5.1 Unseen batch (RQ5):** apply the *already-trained* models (no refitting) to the 39 cells of 2018-02-20. Report RMSE/MAPE **overall, standard-only and `-newstructure`-only**. Expect worse results, and explain them with the protocol difference and the narrow life range.
-- [ ] **P5.2 Interpretability:** for the best linear model, report the coefficients. For the best tree model, use SHAP (`shap.TreeExplainer`). For all models, use permutation importance on the primary test set. Does any F4 feature rank in the top 5?
-- [ ] **P5.3 Error analysis:** residual against true life, residual by charging policy. Where do models fail: long-lived cells, or particular policies?
-- [ ] **P5.4 Optional:** GP predictive intervals; coverage of the 95% interval on the test sets.
-
-### Checkpoint ✅ P5
-- [ ] Every RQ (1–5) has a figure or table that answers it.
-- [ ] Commit.
-
+- [x] P5.1 Input drift (no lives): standard cells temp integral z +2.9, QD2 +2.6, overhang +2.6; ~1/3 of cells beyond 3 SD.
+- [x] P5.2 `src/p5_unseen.py` → `results/p5_unseen.json` (all models, per group, bootstrap, GP coverage, verdicts).
+- [x] P5.3 SHAP (`src/p5_shap.py`, exact, training background) → `results/p5_shap.json`, `p5_shap_values.csv`.
+- [x] P5.4 Exploratory (not pre-registered): GP on F3+F4 (`src/p5_gp_full.py`).
+- [x] P5.5 Notebook `05_unseen_batch.ipynb`; report Section X; figures `make_p5_figures.py`; tests `tests/test_unseen.py`.
+### Result ✅ P5 DONE (2026-11-11)
+| Model | u1 all | standard | newstructure |
+|---|---|---|---|
+| constant | 226 | 173 | 351 |
+| EN-F2 | 260 (+27% bias) | 104 | 506 |
+| EN-F3 | 138 | 51 | 271 |
+| EN-F4 / GP-F4 | 178 / 158 | 97 / 49 | 325 / 316 |
+| EN-F1 / EN-F3+F4 | **119** / 124 | 77 / **28** | **204** / 254 |
+Verdicts: H1 no, H2 no (overhang mechanism not confirmed at cell level), H3 yes (weak), H4 yes, H5 yes (GP-F4 coverage 87%: 97% std, 56% new).
+SHAP: F2 over-predicts standard cells via high initial capacity; F3 right via temperature integral (cycle duration); GP-F4 beats EN-F4 because it learned a saturating overhang effect; newstructure over-prediction comes from ΔQ itself (cause open). GP on F3+F4: memorises (train 19), no gain.
 ---
-
 ## 7. Phase P6 — Write-up (weeks 9–10)
 
 | Report section | Content | Source |

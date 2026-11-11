@@ -4,8 +4,8 @@
 
 \subsection{Key observations}
 Observations 1 and 4 concern the 2018-02-20 batch analysed in
-Section~\ref{sec:eda}; observations 2 and 3 also hold for the paper's
-batches (Section~\ref{sec:reproduction}).
+Section~\ref{sec:eda}; observations 2, 3, 5 and 6 hold for the paper's
+batches and the unseen batch (Sections~\ref{sec:reproduction}--\ref{sec:unseen}).
 \begin{enumerate}
   \item \textbf{All policies take the same charge time.} In this batch every
   policy reaches 80\% SOC in about 10\,min, so differences in lifetime
@@ -18,10 +18,21 @@ batches (Section~\ref{sec:reproduction}).
   100 correlates with log life at only $r=+0.47$.
   \item \textbf{Curve-shape features carry early information.} $\dq$ visibly
   separates short- and long-lived cells at cycle 100, long before EOL.
-  \item \textbf{The test procedure dominates.} Whatever
-  \texttt{-newstructure} changed roughly doubles cycle life. Its effect is
-  larger than that of any charging policy. These cells also tend to start
-  with lower internal resistance.
+  \item \textbf{The test procedure dominates.} The \texttt{-newstructure}
+  procedure, which uses 5-second rests instead of about 5\,min
+  (Table~\ref{tab:steps}), roughly doubles cycle life. Its effect is larger
+  than that of any charging policy. These cells also tend to start with lower
+  internal resistance.
+  \item \textbf{Flexible models fit the training batches but transfer
+  worse.} Features that encode the batch (Section~\ref{sec:physics}),
+  whole-curve PLS and non-linear models all improve on the training batches
+  and lose on the secondary batch (Section~\ref{sec:models}). With only two
+  training batches, simple models on robust features are the safer choice.
+  \item \textbf{Which model transfers best depends on the new batch.} The
+  paper's discharge model is the best on the secondary batch and the worst on
+  the unseen one, the full model the reverse (Section~\ref{sec:unseen}).
+  Features that encode the batch help only when the new batch resembles a
+  training batch.
 \end{enumerate}
 
 \subsection{Limitations of the current analysis}
@@ -36,9 +47,10 @@ batches (Section~\ref{sec:reproduction}).
   lives. Some features (temperature integral, charge time) partly encode the
   batch or the policy rather than the state of the cell
   (Section~\ref{sec:reproduction}).
-  \item \textbf{The meaning of \texttt{-newstructure} is unknown.} The data
-  does not record what was changed. Until this is clarified, these cells
-  should be modelled separately or given an explicit indicator feature.
+  \item \textbf{What \texttt{-newstructure} changes is only partly known.}
+  The data does not label it. The protocol steps show 5-second rests and a
+  shorter hold at 3.6\,V (Table~\ref{tab:steps}), but other changes cannot be
+  ruled out, so these cells should still be reported separately.
   \item \textbf{Noise.} Single-cycle glitches and the 20\,min charge-time
   cap are handled by rules B3--B5. The $\dq$ features still use only two
   cycles (10 and 100), so noise in either cycle passes straight into

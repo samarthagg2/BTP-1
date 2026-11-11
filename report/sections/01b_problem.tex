@@ -14,8 +14,8 @@ over to an unseen batch tested under different conditions.}
 \begin{enumerate}
   \item[\textbf{RQ1}] Can the early-prediction results of~\cite{severson2019}
   be reproduced on its public dataset?
-  \item[\textbf{RQ2}] With about 124 cells, do non-linear models (kernel,
-  tree-ensemble and neural) outperform regularised linear models?
+  \item[\textbf{RQ2}] With about 124 cells, do other model types (whole-curve
+  PLS, kernel methods, additive splines) outperform regularised linear models?
   \item[\textbf{RQ3}] Do physics-informed features (differential capacity,
   resistance growth, heating) improve on the purely data-driven features of
   \cite{severson2019}, and for which models?
@@ -68,9 +68,10 @@ candidates (Section~\ref{sec:physics}) \\
 \end{table}
 
 \subsection{Models}
-Table~\ref{tab:models} lists the seven models. They cover four families, so
-that the comparison shows how each \emph{kind} of model behaves, not just
-how individual models rank.
+Table~\ref{tab:models} lists the models. The original plan of seven models
+was reduced to five: tree ensembles and neural networks were dropped because
+with about 41 training cells they can memorise the training set, and trees
+cannot predict lives outside the training range (Section~\ref{sec:models}).
 
 \begin{table}[t]
 \centering
@@ -82,21 +83,15 @@ how individual models rank.
 Family & Model & Reason for inclusion \\
 \midrule
 \multirow{2}{*}{Linear} & Elastic net & Baseline of~\cite{severson2019}; easy to interpret \\
- & PLS regression & Built for many correlated inputs; can also use the whole $\dq$ curve \\
+ & PLS regression & Built for many correlated inputs; uses the whole $\dq$ curve \\
 \midrule
-\multirow{2}{*}{Kernel} & SVR & Non-linear; works well with small data \\
+\multirow{2}{*}{Kernel} & SVR & Non-linear; robust loss \\
  & Gaussian process & Non-linear, and gives prediction uncertainty \\
 \midrule
-\multirow{2}{*}{Trees} & Random forest & Robust; little tuning needed \\
- & XGBoost & Strong on tabular data; supports monotonic (physics) constraints \\
-\midrule
-Neural & MLP (1--2 layers) & Tests whether deep learning helps with small data \\
+Additive & Spline model (GAM) & One smooth, readable curve per feature \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\noindent\textit{Optional extensions, if time permits:} a 1D CNN applied to
-the raw $\dq$ curve, and XGBoost with monotonic constraints.
 
 \subsection{Evaluation protocol}
 \begin{enumerate}
@@ -117,8 +112,8 @@ the raw $\dq$ curve, and XGBoost with monotonic constraints.
 \subsection{Additional analyses}
 \begin{itemize}
   \item \textbf{Early-prediction horizon (RQ4):} recompute features for
-  $N\in\{20,40,60,80,100\}$ and plot test error against $N$ for the best
-  models.
+  $N\in\{20,30,40,50,60,80,100,150\}$ and plot test error against $N$
+  (Section~\ref{sec:models}).
   \item \textbf{Interpretability:} use permutation importance and SHAP values
   to find which features, and therefore which degradation mechanisms,
   drive the predictions.

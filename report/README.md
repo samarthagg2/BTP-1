@@ -16,10 +16,12 @@ report/
 │   ├── 05_eda.tex         # figures + correlation analysis
 │   ├── 05b_reproduction.tex  # P2: features, models, results vs paper
 │   ├── 05c_physics.tex       # P3: physics-informed feature screening, F4
+│   ├── 05d_models.tex        # P4: model comparison (PLS, GP, SVR, GAM), cycles N
+│   ├── 05e_unseen.tex        # P5: unseen batch (RQ5), hypotheses, SHAP
 │   ├── 06_discussion.tex
 │   └── 07_plan.tex
 ├── figures/              # vector PDFs + stats.json (generated)
-├── scripts/              # make_figures.py, make_cleaning_figures.py, make_p2_figures.py, make_p3_figures.py
+├── scripts/              # make_figures.py, make_cleaning_figures.py, make_p2_figures.py, make_p3_figures.py, make_p4_figures.py, make_p5_figures.py
 └── notes.md              # scratch area: dump ideas/results here before writing them up
 ```
 
