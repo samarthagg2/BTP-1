@@ -1,64 +1,75 @@
 \section{Introduction}
+\label{sec:intro}
 
-Lithium-ion batteries power phones, laptops, electric vehicles and
-grid-scale storage. A battery's useful life is limited because its
-capacity falls with every charge--discharge cycle. Cells are usually
-retired when the capacity reaches 80\% of the rated value, which is called
-\emph{end of life} (EOL). Measuring cycle life directly means cycling a
-cell until it fails, which can take months or years. That delay slows down
-every step that depends on lifetime: designing new chemistries, validating
-manufacturing changes, grading cells, and optimising charging protocols.
-
-Lifetime prediction is hard for two reasons:
+Measuring the cycle life of a lithium-ion cell means cycling it until its
+capacity falls to 80\,\% of nominal, which takes months. Early prediction is
+hard because capacity stays nearly flat until a late ``knee'', and because
+nominally identical cells differ in life. Severson \textit{et
+al.}~\cite{severson2019} predicted cycle life with about 9\,\% error from the
+first 100 cycles using features of the discharge curve, chiefly the variance
+of $\dq$, the change in the discharge capacity--voltage curve between cycles
+10 and 100. This project reproduces that result and asks whether other
+model families, features derived from degradation mechanisms or fewer cycles
+do better, and how the models transfer to a batch tested differently:
 \begin{enumerate}
-  \item \textbf{Degradation is non-linear.} Capacity often stays almost flat
-  for hundreds of cycles and then drops sharply (the ``knee'').
-  Extrapolating the early trend therefore underestimates how fast the cell
-  will eventually fail.
-  \item \textbf{Cells vary from one to the next.} Even identical cells,
-  cycled under identical conditions, can differ noticeably in lifetime.
+  \item[\textbf{RQ1}] Using the public data, the paper's train/test split
+  and its elastic-net models, do we obtain the test errors of its Table~1
+  for feature sets F1--F3 (Table~\ref{tab:featsets})?
+  \item[\textbf{RQ2}] With 41 training cells, do non-linear models, a
+  Gaussian process (GP) or an additive spline model (GAM), beat the elastic
+  net, (a)~for new cells from the training batches and (b)~for a later batch
+  tested with a different procedure?
+  \item[\textbf{RQ3}] Do features derived from degradation mechanisms
+  (dQ/dV peaks, resistance, temperature, anode overhang, capacity budget),
+  screened on training cells only, add information beyond $\dq$ and the
+  paper's features?
+  \item[\textbf{RQ4}] How does the error change when only the first
+  $N\in\{20,\dots,150\}$ cycles are used, and what is the smallest useful
+  $N$?
+  \item[\textbf{RQ5}] Trained only on the three original batches, how
+  accurate are the models on an unseen batch with different rests and charge
+  termination, and which features cause their errors (SHAP)?
 \end{enumerate}
 
-Severson \textit{et al.}~\cite{severson2019} showed that a simple linear
-model can predict cycle life with about 9.1\% test error using only the
-first 100 cycles, \emph{before} any capacity loss is visible. The
-model relies on features of the discharge voltage curve. The most important
-is the variance of $\dq$, the change in the discharge capacity--voltage
-curve between cycle 100 and cycle 10. With only the first five cycles, the
-same work classified cells as long- or short-lived with 4.9\% test error.
-Follow-up work used such early predictions to find the best fast-charging
-protocols automatically, in a closed loop~\cite{attia2020}.
+Table~\ref{tab:featsets} defines the 12 features of the paper's sets
+F1--F3. The $\Delta Q$ features correlate strongly with life both overall
+and within each batch. The temperature integral correlates strongly overall
+($-0.70$) but with the opposite sign within each batch, so it mainly
+separates the batches; charge time helps only within b1, the one batch in
+which it varies.
 
-\subsection{Objectives}
-This project aims to:
-\begin{enumerate}
-  \item Understand the experiment, the charging protocols and the structure
-  of the public cycling dataset~\cite{matr_data}.
-  \item Build a reliable pipeline from the raw MATLAB files to analysis-ready
-  features.
-  \item Reproduce the early-prediction baseline of~\cite{severson2019}.
-  \item Compare machine-learning models from several families, and
-  data-driven against physics-informed features, under one common
-  evaluation protocol.
-  \item Test how well the models generalise to an unseen batch and
-  interpret what drives their predictions.
-\end{enumerate}
-Section~\ref{sec:problem} states the problem precisely.
-
-\subsection{Scope of this interim report}
-This report covers objectives~1--5.
-It presents an exploratory analysis of one batch (dated 2018-02-20, 47
-cells), the data pipeline for all four batches, the reproduction of the
-baseline of~\cite{severson2019}, the physics-informed feature set, the
-comparison of model types and of the number of early cycles, the test on an
-unseen batch with an interpretation of the models, and the problem statement.
-Section~\ref{sec:problem} gives the problem statement,
-Section~\ref{sec:background} the battery background,
-Section~\ref{sec:dataset} the dataset, Section~\ref{sec:pipeline} the data
-pipeline, Section~\ref{sec:eda} the exploratory analysis,
-Section~\ref{sec:reproduction} the reproduction of the paper's models,
-Section~\ref{sec:physics} the physics-informed features,
-Section~\ref{sec:models} the model comparison,
-Section~\ref{sec:unseen} the unseen batch and interpretation,
-Section~\ref{sec:discussion} the observations and limitations, and
-Section~\ref{sec:plan} the work plan.
+\begin{table*}[t]
+\centering
+\caption{The 12 features, all computed from cycles 2--100. $\Delta Q(V)=\dq$
+on 1000 voltages from 3.5 to 2.0\,V of the 4\,C discharge; $Q_{d,n}$:
+discharge capacity of cycle $n$; $\log=\log_{10}$. Sets: membership in
+F1--F3. $r$: Pearson correlation with $\log_{10}$ life on the 41 training
+cells (temperature integral: 40, one probe fault), overall and within
+batches b1 and b2.}
+\label{tab:featsets}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.43\textwidth}lcccc@{}}
+\toprule
+Feature & Definition (how it is computed) & Unit & Sets & $r$ & $r_\text{b1}$ & $r_\text{b2}$ \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Discharge curve, cycle 100 vs.\ 10}~\cite{severson2019}} \\
+$\log\mathrm{Var}\,\Delta Q$ & $\log|\mathrm{Var}_V\,\Delta Q(V)|$, spread of the curve change over voltage & -- & F1 F2 F3 & $-0.90$ & $-0.93$ & $-0.76$ \\
+$\log|\min\Delta Q|$ & $\log|\min_V \Delta Q(V)|$, largest local change (on the plateau) & -- & F2 F3 & $-0.89$ & $-0.91$ & $-0.76$ \\
+$\log|\mathrm{skew}\,\Delta Q|$ & $\log|$skewness of $\Delta Q(V)$ over $V|$ & -- & F2 & $+0.38$ & $+0.49$ & $-0.22$ \\
+$\log|\mathrm{kurt}\,\Delta Q|$ & $\log|$kurtosis of $\Delta Q(V)$ over $V|$ & -- & F2 & $+0.20$ & $+0.63$ & $-0.45$ \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Capacity}~\cite{severson2019}} \\
+$Q_{d,2}$ & discharge capacity of cycle 2 & Ah & F2 F3 & $+0.33$ & $-0.01$ & $+0.15$ \\
+$\max Q_d - Q_{d,2}$ & highest capacity in cycles 2--100 minus $Q_{d,2}$ & Ah & F2 & $+0.15$ & $+0.54$ & $+0.16$ \\
+Fade slope & slope $a$ of the least-squares line $Q_{d,n}\approx a\,n+b$, $n=2\dots100$ & Ah/cycle & F3 & $+0.40$ & $+0.46$ & $+0.59$ \\
+Fade intercept & intercept $b$ of the same line & Ah & F3 & $+0.28$ & $+0.03$ & $+0.04$ \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Other measurements}~\cite{severson2019}} \\
+Charge time & mean time from 0 to 80\,\% SOC, cycles 2--6 & min & F3 & $+0.77$ & $+0.77$ & $-0.16$ \\
+Temp.\ integral & $\sum_{n=2}^{100}\int T\,dt$ over each cycle (gaps $>10$\,min left out) & $^\circ$C\,min & F3 & $-0.70$ & $+0.06$ & $+0.45$ \\
+Min.\ resistance & lowest internal resistance in cycles 2--100 & $\Omega$ & F3 & $-0.39$ & $+0.27$ & $+0.12$ \\
+Resistance change & $R_{100}-R_2$ & $\Omega$ & F3 & $+0.38$ & $-0.02$ & $-0.10$ \\
+\bottomrule
+\end{tabular}
+\end{table*}

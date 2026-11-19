@@ -1,0 +1,103 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\textbf{$\dq$ is the signal, and we found nothing to add to it.} Every model
+takes most of its information from $\dq$, which already sums the effect of
+every mechanism. Over the first 100 cycles it grows linearly, so the early
+data contain no sign of the coming knee beyond its rate.
+
+\textbf{The batch, not the model, sets the error.} With two training
+batches, anything that separates b1 from b2 looks useful in
+cross-validation and on the primary set: the temperature integral and charge
+time of F3, the narrow voltage weights of PLS, the extra flexibility of the
+GAM, the overhang rise. None of it holds on a new batch. Screening within
+each batch (Section~\ref{sec:rq3}) catches part of this, but a model or
+feature should finally be judged on a batch it has not seen.
+
+\textbf{The test procedure changes the relation between $\dq$ and life.} In
+u1 the \texttt{newstructure} cells live about twice as long as standard
+cells charged with the same policy (median 809--997 vs.\ 446--492 cycles for
+the three shared policies), and their $\dq$ is smaller still than that longer
+life implies.
+
+\textbf{Why b2 and the u1 standard cells live short.} The two short-lived
+sets (median 481 and 451 cycles) are the two with 5-minute rests after the
+fast charge and after discharge (Table~\ref{tab:batches}; for b2 also stated
+in~\cite{severson2019}). The policies do not explain this alone. b2 has only
+10-minute policies, but b1 cells with 10-minute policies still live longer
+(median 700). 4.8C(80\,\%)-4.8C gives 636--870 cycles in b1 and 461--495 in
+b2, and the three policies shared by the two u1 groups give 412--514 cycles
+with long rests and 777--1186 with short ones. One policy, 6C(60\,\%)-3C,
+barely differs (731--757 in b1, 713 in b2). The end-of-life label is the
+same in every batch (first cycle below 0.88\,Ah).
+
+A possible mechanism is temperature: the cell cools during the rests and
+starts the fast charge 1.5--2\,\textdegree C colder (31.4--31.6 vs.\
+32.8--34.4\,\textdegree C), which favours lithium plating. Within a set and
+policy, where the procedure is identical, colder cells do live shorter:
+$+6$\,\% life per \textdegree C at the start of the fast charge (95\,\%
+interval 4--9\,\%; 112 cells, 36 policy groups). This slope, however,
+accounts for only a 9--11\,\% shorter life across the observed temperature
+gaps, against 35--55\,\% observed. Temperature contributes, but most of the
+effect of the long rests is not explained by the data. Other procedure
+differences, such as the CV cut-off, and an unrecorded change behind the
+\texttt{newstructure} label cannot be ruled out.
+
+\textbf{Uncertainty needs an out-of-range check.} The GP interval is
+too narrow when the GP nearly interpolates the training cells, and
+overconfident when the procedure changes (56\,\% coverage on the
+\texttt{newstructure} cells). Large input $z$-scores flag some failures, but
+not the \texttt{newstructure} cells, whose inputs were only moderately
+unusual.
+
+\subsection{Limitations}
+\begin{itemize}
+  \item \textbf{Small sample.} 41 training cells and about 40 cells per test
+  set: most differences between models have bootstrap intervals that include
+  zero. Many configurations were scored on the same test sets; fixing every choice on the training cells
+  and the bootstrap limit, but do not remove, the optimism this causes.
+  \item \textbf{Narrow scope.} One cell type (LFP/graphite, A123), one
+  temperature (30\,\textdegree C), two training batches and only nine
+  \texttt{newstructure} cells.
+  \item \textbf{Limited search.} Nineteen candidates were screened; other
+  features (e.g.\ from the charge curve or relaxation voltage) were not
+  tried.
+  \item \textbf{Unlabelled procedure changes.} What \texttt{newstructure}
+  changes is inferred from the step records (rests, CV cut-off); other
+  changes cannot be ruled out.
+  \item \textbf{Two-cycle features.} $\dq$ uses only cycles 10 and 100, so
+  noise in either passes directly into every feature.
+\end{itemize}
+
+\section{Conclusion}
+\label{sec:conclusion}
+The data-driven early prediction of~\cite{severson2019} was reproduced on a
+cleaned pipeline, exactly for the one-feature model and within a few cycles
+for the others (RQ1). Nineteen features derived from degradation mechanisms
+were screened, and none added usable information beyond $\dq$ and the
+paper's capacity features (RQ3). With 41 training cells, a Gaussian process
+and an additive spline model were not significantly better than the
+elastic net, within the training batches or on a new batch; the spline
+model fails beyond the training range, and a random forest, which cannot
+extrapolate at all, is worse everywhere (RQ2). About 40 cycles give a rough
+prediction, 100 cycles a good one, and more bring no gain (RQ4). On an
+unseen batch, cells tested like a training batch are predicted to within
+9--14\,\%, while cells tested with a different procedure are over-predicted
+by 17--62\,\% by every model; SHAP traces this to $\dq$ itself (RQ5). The
+main obstacle to early life prediction on this dataset is the change of test
+procedure between batches, not the choice of model or features.
+
+\textbf{Future work.}
+\begin{itemize}
+  \item Train on more batches and procedures, including u1, and evaluate
+  leave-one-batch-out.
+  \item Give the model the procedure (rest length, CV cut-off) as an input,
+  or correct $\dq$ for it.
+  \item Fit $\dq$ over all cycles 10--100 instead of two, using its linear
+  growth, to reduce noise.
+  \item Combine the GP interval with an out-of-range check before trusting a
+  prediction.
+  \item Look for new information in signals not used here, such as the
+  charge curve or rest voltage relaxation, and test on other chemistries and
+  in closed-loop protocol optimisation~\cite{attia2020}.
+\end{itemize}

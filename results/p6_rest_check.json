@@ -1,0 +1,1279 @@
+{
+  "groups": {
+    "b1": {
+      "n": 41,
+      "median_life": 842.0,
+      "median_life_10min_policies": 700.0,
+      "T_start_fc": 32.844795,
+      "T_mean_fc": 33.78679026755853
+    },
+    "b2": {
+      "n": 43,
+      "median_life": 481.0,
+      "median_life_10min_policies": 481.0,
+      "T_start_fc": 31.370152,
+      "T_mean_fc": 33.04289185941043
+    },
+    "b3": {
+      "n": 40,
+      "median_life": 964.5,
+      "median_life_10min_policies": 933.5,
+      "T_start_fc": 34.39605999390367,
+      "T_mean_fc": 34.90876891497961
+    },
+    "u1 new": {
+      "n": 9,
+      "median_life": 904.0,
+      "median_life_10min_policies": 904.0,
+      "T_start_fc": 33.56407687295825,
+      "T_mean_fc": 34.27668250103753
+    },
+    "u1 std": {
+      "n": 30,
+      "median_life": 451.0,
+      "median_life_10min_policies": 451.0,
+      "T_start_fc": 31.605232437379964,
+      "T_mean_fc": 32.90694572958077
+    }
+  },
+  "shared_policies": {
+    "4.8C(80%)-4.8C: b1 vs b2": {
+      "b1": [
+        870.0,
+        636.0
+      ],
+      "b2": [
+        461.0,
+        495.0,
+        471.0
+      ],
+      "dT_start": -1.7511679999999998
+    },
+    "6C(60%)-3C: b1 vs b2": {
+      "b1": [
+        731.0,
+        757.0
+      ],
+      "b2": [
+        713.0
+      ],
+      "dT_start": -2.249929500000004
+    },
+    "4.8C(80%)-4.8C: u1 std vs u1 new": {
+      "u1 std": [
+        492.0,
+        472.0,
+        514.0,
+        437.0,
+        503.0
+      ],
+      "u1 new": [
+        777.0,
+        809.0,
+        1029.0
+      ],
+      "dT_start": 2.571647634486059
+    },
+    "5.2C(58%)-4C: u1 std vs u1 new": {
+      "u1 std": [
+        477.0,
+        489.0,
+        493.0,
+        452.0
+      ],
+      "u1 new": [
+        904.0,
+        1140.0,
+        841.0
+      ],
+      "dT_start": 2.1521713630364516
+    },
+    "5.6C(26%)-4.5C: u1 std vs u1 new": {
+      "u1 std": [
+        491.0,
+        471.0,
+        450.0,
+        412.0,
+        425.0,
+        442.0
+      ],
+      "u1 new": [
+        791.0,
+        1186.0,
+        997.0
+      ],
+      "dT_start": 3.4712268119702756
+    }
+  },
+  "within_group_policy": {
+    "T_start_fc": {
+      "slope_log10_per_degC": 0.026549332539236845,
+      "ci95": [
+        0.01623839378323952,
+        0.03686027129523417
+      ],
+      "p": 1.3977968964471302e-06,
+      "n_cells": 112,
+      "n_policy_groups": 36,
+      "sd_within_degC": 0.8643396564382119
+    },
+    "T_mean_fc": {
+      "slope_log10_per_degC": 0.019308103842595892,
+      "ci95": [
+        0.009366027530752228,
+        0.02925018015443956
+      ],
+      "p": 0.00019908191107307198,
+      "n_cells": 112,
+      "n_policy_groups": 36,
+      "sd_within_degC": 0.9355385237374422
+    }
+  },
+  "implied_life_ratio_from_temperature": {
+    "b1 vs b2": 0.9137959157291985,
+    "u1 new vs u1 std": 0.8871437304577197
+  },
+  "cells": {
+    "b1c1": {
+      "group": "b1",
+      "policy": "3.6C(80%)-3.6C",
+      "cycle_life": 2160.0,
+      "T_start_fc": 31.19,
+      "T_mean_fc": 31.34
+    },
+    "b1c3": {
+      "group": "b1",
+      "policy": "4C(80%)-4C",
+      "cycle_life": 1434.0,
+      "T_start_fc": NaN,
+      "T_mean_fc": NaN
+    },
+    "b1c5": {
+      "group": "b1",
+      "policy": "4.4C(80%)-4.4C",
+      "cycle_life": 1074.0,
+      "T_start_fc": 30.64,
+      "T_mean_fc": 31.136
+    },
+    "b1c7": {
+      "group": "b1",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 870.0,
+      "T_start_fc": 31.711,
+      "T_mean_fc": 32.397
+    },
+    "b1c11": {
+      "group": "b1",
+      "policy": "5.4C(50%)-3C",
+      "cycle_life": 788.0,
+      "T_start_fc": 32.721,
+      "T_mean_fc": 33.499
+    },
+    "b1c15": {
+      "group": "b1",
+      "policy": "5.4C(60%)-3C",
+      "cycle_life": 719.0,
+      "T_start_fc": 33.01,
+      "T_mean_fc": 34.161
+    },
+    "b1c17": {
+      "group": "b1",
+      "policy": "5.4C(60%)-3.6C",
+      "cycle_life": 857.0,
+      "T_start_fc": 31.808,
+      "T_mean_fc": 32.781
+    },
+    "b1c19": {
+      "group": "b1",
+      "policy": "5.4C(70%)-3C",
+      "cycle_life": 788.0,
+      "T_start_fc": 32.829,
+      "T_mean_fc": 33.991
+    },
+    "b1c21": {
+      "group": "b1",
+      "policy": "5.4C(80%)-5.4C",
+      "cycle_life": 559.0,
+      "T_start_fc": 32.785,
+      "T_mean_fc": 33.805
+    },
+    "b1c24": {
+      "group": "b1",
+      "policy": "6C(40%)-3C",
+      "cycle_life": 1017.0,
+      "T_start_fc": 33.68,
+      "T_mean_fc": 34.361
+    },
+    "b1c26": {
+      "group": "b1",
+      "policy": "6C(40%)-3.6C",
+      "cycle_life": 870.0,
+      "T_start_fc": 33.369,
+      "T_mean_fc": 34.119
+    },
+    "b1c28": {
+      "group": "b1",
+      "policy": "6C(50%)-3C",
+      "cycle_life": 860.0,
+      "T_start_fc": 33.826,
+      "T_mean_fc": 34.949
+    },
+    "b1c30": {
+      "group": "b1",
+      "policy": "6C(50%)-3.6C",
+      "cycle_life": 709.0,
+      "T_start_fc": 33.684,
+      "T_mean_fc": 34.617
+    },
+    "b1c32": {
+      "group": "b1",
+      "policy": "6C(60%)-3C",
+      "cycle_life": 731.0,
+      "T_start_fc": 33.081,
+      "T_mean_fc": 34.137
+    },
+    "b1c34": {
+      "group": "b1",
+      "policy": "7C(30%)-3.6C",
+      "cycle_life": 742.0,
+      "T_start_fc": 32.845,
+      "T_mean_fc": 33.557
+    },
+    "b1c36": {
+      "group": "b1",
+      "policy": "7C(40%)-3C",
+      "cycle_life": 704.0,
+      "T_start_fc": 32.29,
+      "T_mean_fc": 32.761
+    },
+    "b1c38": {
+      "group": "b1",
+      "policy": "7C(40%)-3.6C",
+      "cycle_life": 617.0,
+      "T_start_fc": 33.713,
+      "T_mean_fc": 34.988
+    },
+    "b1c40": {
+      "group": "b1",
+      "policy": "8C(15%)-3.6C",
+      "cycle_life": 966.0,
+      "T_start_fc": 33.537,
+      "T_mean_fc": 34.215
+    },
+    "b1c42": {
+      "group": "b1",
+      "policy": "8C(25%)-3.6C",
+      "cycle_life": 702.0,
+      "T_start_fc": 33.588,
+      "T_mean_fc": 34.655
+    },
+    "b1c44": {
+      "group": "b1",
+      "policy": "8C(35%)-3.6C",
+      "cycle_life": 616.0,
+      "T_start_fc": 32.407,
+      "T_mean_fc": 33.567
+    },
+    "b2c0": {
+      "group": "b2",
+      "policy": "1C(4%)-6C",
+      "cycle_life": 300.0,
+      "T_start_fc": 29.085,
+      "T_mean_fc": 30.715
+    },
+    "b2c2": {
+      "group": "b2",
+      "policy": "2C(2%)-5C",
+      "cycle_life": 438.0,
+      "T_start_fc": 31.342,
+      "T_mean_fc": 33.007
+    },
+    "b2c4": {
+      "group": "b2",
+      "policy": "3.6C(22%)-5.5C",
+      "cycle_life": 444.0,
+      "T_start_fc": 31.488,
+      "T_mean_fc": 33.122
+    },
+    "b2c6": {
+      "group": "b2",
+      "policy": "3.6C(30%)-6C",
+      "cycle_life": 511.0,
+      "T_start_fc": 32.101,
+      "T_mean_fc": 33.458
+    },
+    "b2c11": {
+      "group": "b2",
+      "policy": "4C(13%)-5C",
+      "cycle_life": 477.0,
+      "T_start_fc": 32.063,
+      "T_mean_fc": 33.355
+    },
+    "b2c13": {
+      "group": "b2",
+      "policy": "4C(40%)-6C",
+      "cycle_life": 483.0,
+      "T_start_fc": 31.641,
+      "T_mean_fc": 33.945
+    },
+    "b2c17": {
+      "group": "b2",
+      "policy": "4.4C(24%)-5C",
+      "cycle_life": 494.0,
+      "T_start_fc": 30.531,
+      "T_mean_fc": 31.389
+    },
+    "b2c19": {
+      "group": "b2",
+      "policy": "4.4C(55%)-6C",
+      "cycle_life": 461.0,
+      "T_start_fc": 31.385,
+      "T_mean_fc": 32.904
+    },
+    "b2c21": {
+      "group": "b2",
+      "policy": "4.65C(19%)-4.85C",
+      "cycle_life": 489.0,
+      "T_start_fc": 30.981,
+      "T_mean_fc": 32.327
+    },
+    "b2c23": {
+      "group": "b2",
+      "policy": "4.65C(69%)-6C",
+      "cycle_life": 527.0,
+      "T_start_fc": 30.784,
+      "T_mean_fc": 32.763
+    },
+    "b2c25": {
+      "group": "b2",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 461.0,
+      "T_start_fc": 29.489,
+      "T_mean_fc": 29.702
+    },
+    "b2c27": {
+      "group": "b2",
+      "policy": "4.9C(27%)-4.75C",
+      "cycle_life": 468.0,
+      "T_start_fc": 30.755,
+      "T_mean_fc": 32.171
+    },
+    "b2c29": {
+      "group": "b2",
+      "policy": "4.9C(69%)-4.25C",
+      "cycle_life": 498.0,
+      "T_start_fc": 31.996,
+      "T_mean_fc": 33.807
+    },
+    "b2c31": {
+      "group": "b2",
+      "policy": "5.2C(37%)-4.5C",
+      "cycle_life": 492.0,
+      "T_start_fc": 30.885,
+      "T_mean_fc": 32.006
+    },
+    "b2c33": {
+      "group": "b2",
+      "policy": "5.2C(58%)-4C",
+      "cycle_life": 520.0,
+      "T_start_fc": 31.901,
+      "T_mean_fc": 33.336
+    },
+    "b2c35": {
+      "group": "b2",
+      "policy": "5.2C(71%)-3C",
+      "cycle_life": 463.0,
+      "T_start_fc": 31.979,
+      "T_mean_fc": 34.12
+    },
+    "b2c37": {
+      "group": "b2",
+      "policy": "5.6C(38%)-4.25C",
+      "cycle_life": 478.0,
+      "T_start_fc": 30.849,
+      "T_mean_fc": 32.217
+    },
+    "b2c39": {
+      "group": "b2",
+      "policy": "5.6C(58%)-3.5C",
+      "cycle_life": 459.0,
+      "T_start_fc": 30.867,
+      "T_mean_fc": 32.616
+    },
+    "b2c41": {
+      "group": "b2",
+      "policy": "5.6C(65%)-3C",
+      "cycle_life": 429.0,
+      "T_start_fc": 31.568,
+      "T_mean_fc": 33.736
+    },
+    "b2c43": {
+      "group": "b2",
+      "policy": "6C(31%)-4.25C",
+      "cycle_life": 462.0,
+      "T_start_fc": 31.384,
+      "T_mean_fc": 33.247
+    },
+    "b2c45": {
+      "group": "b2",
+      "policy": "6C(4%)-4.75C",
+      "cycle_life": 487.0,
+      "T_start_fc": 31.203,
+      "T_mean_fc": 32.633
+    },
+    "b1c0": {
+      "group": "b1",
+      "policy": "3.6C(80%)-3.6C",
+      "cycle_life": 1852.0,
+      "T_start_fc": 31.436,
+      "T_mean_fc": 31.651
+    },
+    "b1c2": {
+      "group": "b1",
+      "policy": "3.6C(80%)-3.6C",
+      "cycle_life": 2237.0,
+      "T_start_fc": 31.278,
+      "T_mean_fc": 31.471
+    },
+    "b1c4": {
+      "group": "b1",
+      "policy": "4C(80%)-4C",
+      "cycle_life": 1709.0,
+      "T_start_fc": 31.308,
+      "T_mean_fc": 31.587
+    },
+    "b1c6": {
+      "group": "b1",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 636.0,
+      "T_start_fc": 31.785,
+      "T_mean_fc": 32.642
+    },
+    "b1c9": {
+      "group": "b1",
+      "policy": "5.4C(40%)-3.6C",
+      "cycle_life": 1054.0,
+      "T_start_fc": 32.419,
+      "T_mean_fc": 33.177
+    },
+    "b1c14": {
+      "group": "b1",
+      "policy": "5.4C(60%)-3C",
+      "cycle_life": 880.0,
+      "T_start_fc": 32.863,
+      "T_mean_fc": 33.977
+    },
+    "b1c16": {
+      "group": "b1",
+      "policy": "5.4C(60%)-3.6C",
+      "cycle_life": 862.0,
+      "T_start_fc": 32.114,
+      "T_mean_fc": 33.111
+    },
+    "b1c18": {
+      "group": "b1",
+      "policy": "5.4C(70%)-3C",
+      "cycle_life": 691.0,
+      "T_start_fc": 32.131,
+      "T_mean_fc": 33.089
+    },
+    "b1c20": {
+      "group": "b1",
+      "policy": "5.4C(80%)-5.4C",
+      "cycle_life": 534.0,
+      "T_start_fc": 31.857,
+      "T_mean_fc": 32.658
+    },
+    "b1c23": {
+      "group": "b1",
+      "policy": "6C(30%)-3.6C",
+      "cycle_life": 1014.0,
+      "T_start_fc": 32.018,
+      "T_mean_fc": 32.524
+    },
+    "b1c25": {
+      "group": "b1",
+      "policy": "6C(40%)-3C",
+      "cycle_life": 854.0,
+      "T_start_fc": 33.901,
+      "T_mean_fc": 34.849
+    },
+    "b1c27": {
+      "group": "b1",
+      "policy": "6C(40%)-3.6C",
+      "cycle_life": 842.0,
+      "T_start_fc": 34.07,
+      "T_mean_fc": 34.976
+    },
+    "b1c29": {
+      "group": "b1",
+      "policy": "6C(50%)-3C",
+      "cycle_life": 917.0,
+      "T_start_fc": 32.855,
+      "T_mean_fc": 33.54
+    },
+    "b1c31": {
+      "group": "b1",
+      "policy": "6C(50%)-3.6C",
+      "cycle_life": 876.0,
+      "T_start_fc": NaN,
+      "T_mean_fc": NaN
+    },
+    "b1c33": {
+      "group": "b1",
+      "policy": "6C(60%)-3C",
+      "cycle_life": 757.0,
+      "T_start_fc": 33.625,
+      "T_mean_fc": 34.975
+    },
+    "b1c35": {
+      "group": "b1",
+      "policy": "7C(30%)-3.6C",
+      "cycle_life": 703.0,
+      "T_start_fc": 32.102,
+      "T_mean_fc": 32.794
+    },
+    "b1c37": {
+      "group": "b1",
+      "policy": "7C(40%)-3C",
+      "cycle_life": 648.0,
+      "T_start_fc": 33.205,
+      "T_mean_fc": 34.022
+    },
+    "b1c39": {
+      "group": "b1",
+      "policy": "7C(40%)-3.6C",
+      "cycle_life": 625.0,
+      "T_start_fc": 33.366,
+      "T_mean_fc": 34.715
+    },
+    "b1c41": {
+      "group": "b1",
+      "policy": "8C(15%)-3.6C",
+      "cycle_life": 1051.0,
+      "T_start_fc": 33.206,
+      "T_mean_fc": 33.787
+    },
+    "b1c43": {
+      "group": "b1",
+      "policy": "8C(25%)-3.6C",
+      "cycle_life": 651.0,
+      "T_start_fc": 33.538,
+      "T_mean_fc": 34.434
+    },
+    "b1c45": {
+      "group": "b1",
+      "policy": "8C(35%)-3.6C",
+      "cycle_life": 599.0,
+      "T_start_fc": 33.167,
+      "T_mean_fc": 34.364
+    },
+    "b2c1": {
+      "group": "b2",
+      "policy": "2C(10%)-6C",
+      "cycle_life": 148.0,
+      "T_start_fc": 30.513,
+      "T_mean_fc": 33.277
+    },
+    "b2c3": {
+      "group": "b2",
+      "policy": "2C(7%)-5.5C",
+      "cycle_life": 335.0,
+      "T_start_fc": 31.434,
+      "T_mean_fc": 34.059
+    },
+    "b2c5": {
+      "group": "b2",
+      "policy": "3.6C(2%)-4.85C",
+      "cycle_life": 480.0,
+      "T_start_fc": 30.964,
+      "T_mean_fc": 32.132
+    },
+    "b2c10": {
+      "group": "b2",
+      "policy": "3.6C(9%)-5C",
+      "cycle_life": 561.0,
+      "T_start_fc": 32.476,
+      "T_mean_fc": 33.552
+    },
+    "b2c12": {
+      "group": "b2",
+      "policy": "4C(31%)-5C",
+      "cycle_life": 458.0,
+      "T_start_fc": 31.962,
+      "T_mean_fc": 33.984
+    },
+    "b2c14": {
+      "group": "b2",
+      "policy": "4C(4%)-4.85C",
+      "cycle_life": 485.0,
+      "T_start_fc": 31.445,
+      "T_mean_fc": 32.943
+    },
+    "b2c18": {
+      "group": "b2",
+      "policy": "4.4C(47%)-5.5C",
+      "cycle_life": 487.0,
+      "T_start_fc": 31.37,
+      "T_mean_fc": 33.653
+    },
+    "b2c20": {
+      "group": "b2",
+      "policy": "4.4C(8%)-4.85C",
+      "cycle_life": 502.0,
+      "T_start_fc": 31.133,
+      "T_mean_fc": 32.664
+    },
+    "b2c22": {
+      "group": "b2",
+      "policy": "4.65C(44%)-5C",
+      "cycle_life": 513.0,
+      "T_start_fc": 30.873,
+      "T_mean_fc": 31.911
+    },
+    "b2c24": {
+      "group": "b2",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 495.0,
+      "T_start_fc": 29.997,
+      "T_mean_fc": 29.888
+    },
+    "b2c26": {
+      "group": "b2",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 471.0,
+      "T_start_fc": 30.354,
+      "T_mean_fc": 31.685
+    },
+    "b2c28": {
+      "group": "b2",
+      "policy": "4.9C(61%)-4.5C",
+      "cycle_life": 509.0,
+      "T_start_fc": 31.86,
+      "T_mean_fc": 33.408
+    },
+    "b2c30": {
+      "group": "b2",
+      "policy": "5.2C(10%)-4.75C",
+      "cycle_life": 481.0,
+      "T_start_fc": 31.077,
+      "T_mean_fc": 32.532
+    },
+    "b2c32": {
+      "group": "b2",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 519.0,
+      "T_start_fc": 31.885,
+      "T_mean_fc": 33.694
+    },
+    "b2c34": {
+      "group": "b2",
+      "policy": "5.2C(66%)-3.5C",
+      "cycle_life": 499.0,
+      "T_start_fc": 32.178,
+      "T_mean_fc": 33.929
+    },
+    "b2c36": {
+      "group": "b2",
+      "policy": "5.6C(25%)-4.5C",
+      "cycle_life": 535.0,
+      "T_start_fc": 31.902,
+      "T_mean_fc": 33.771
+    },
+    "b2c38": {
+      "group": "b2",
+      "policy": "5.6C(47%)-4C",
+      "cycle_life": 465.0,
+      "T_start_fc": 30.772,
+      "T_mean_fc": 32.586
+    },
+    "b2c40": {
+      "group": "b2",
+      "policy": "5.6C(5%)-4.75C",
+      "cycle_life": 499.0,
+      "T_start_fc": 31.794,
+      "T_mean_fc": 33.473
+    },
+    "b2c42": {
+      "group": "b2",
+      "policy": "6C(20%)-4.5C",
+      "cycle_life": 466.0,
+      "T_start_fc": 31.567,
+      "T_mean_fc": 33.257
+    },
+    "b2c44": {
+      "group": "b2",
+      "policy": "6C(40%)-4C",
+      "cycle_life": 457.0,
+      "T_start_fc": 31.452,
+      "T_mean_fc": 33.316
+    },
+    "b2c46": {
+      "group": "b2",
+      "policy": "6C(52%)-3.5C",
+      "cycle_life": 429.0,
+      "T_start_fc": 30.743,
+      "T_mean_fc": 32.818
+    },
+    "b2c47": {
+      "group": "b2",
+      "policy": "6C(60%)-3C",
+      "cycle_life": 713.0,
+      "T_start_fc": 31.103,
+      "T_mean_fc": 33.043
+    },
+    "b3c0": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 1009.0,
+      "T_start_fc": 32.401,
+      "T_mean_fc": 32.556
+    },
+    "b3c1": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 1063.0,
+      "T_start_fc": 35.207,
+      "T_mean_fc": 35.802
+    },
+    "b3c3": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 1115.0,
+      "T_start_fc": 36.506,
+      "T_mean_fc": 37.237
+    },
+    "b3c4": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 1048.0,
+      "T_start_fc": NaN,
+      "T_mean_fc": NaN
+    },
+    "b3c5": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 828.0,
+      "T_start_fc": 35.789,
+      "T_mean_fc": 36.0
+    },
+    "b3c6": {
+      "group": "b3",
+      "policy": "3.7C(31%)-5.9C-newstructure",
+      "cycle_life": 667.0,
+      "T_start_fc": 34.032,
+      "T_mean_fc": 34.868
+    },
+    "b3c7": {
+      "group": "b3",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 1836.0,
+      "T_start_fc": 32.807,
+      "T_mean_fc": 33.053
+    },
+    "b3c8": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 828.0,
+      "T_start_fc": 32.955,
+      "T_mean_fc": 33.41
+    },
+    "b3c9": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 1039.0,
+      "T_start_fc": 33.092,
+      "T_mean_fc": 33.553
+    },
+    "b3c10": {
+      "group": "b3",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 1078.0,
+      "T_start_fc": 32.465,
+      "T_mean_fc": 32.715
+    },
+    "b3c11": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 817.0,
+      "T_start_fc": 33.966,
+      "T_mean_fc": 34.699
+    },
+    "b3c12": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 932.0,
+      "T_start_fc": 33.221,
+      "T_mean_fc": 33.712
+    },
+    "b3c13": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 816.0,
+      "T_start_fc": 34.012,
+      "T_mean_fc": 34.654
+    },
+    "b3c14": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 858.0,
+      "T_start_fc": 33.013,
+      "T_mean_fc": 33.573
+    },
+    "b3c15": {
+      "group": "b3",
+      "policy": "5.9C(15%)-4.6C-newstructure",
+      "cycle_life": 876.0,
+      "T_start_fc": 33.219,
+      "T_mean_fc": 33.95
+    },
+    "b3c16": {
+      "group": "b3",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 1638.0,
+      "T_start_fc": 35.81,
+      "T_mean_fc": 35.69
+    },
+    "b3c17": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 1315.0,
+      "T_start_fc": 35.507,
+      "T_mean_fc": 35.937
+    },
+    "b3c18": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 1146.0,
+      "T_start_fc": 35.822,
+      "T_mean_fc": 36.11
+    },
+    "b3c19": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 1155.0,
+      "T_start_fc": 35.82,
+      "T_mean_fc": 36.139
+    },
+    "b3c20": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 813.0,
+      "T_start_fc": 32.904,
+      "T_mean_fc": 33.509
+    },
+    "b3c21": {
+      "group": "b3",
+      "policy": "3.7C(31%)-5.9C-newstructure",
+      "cycle_life": 772.0,
+      "T_start_fc": 35.577,
+      "T_mean_fc": 35.613
+    },
+    "b3c22": {
+      "group": "b3",
+      "policy": "5.9C(60%)-3.1C-newstructure",
+      "cycle_life": 1002.0,
+      "T_start_fc": 35.356,
+      "T_mean_fc": 35.958
+    },
+    "b3c24": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 825.0,
+      "T_start_fc": 34.787,
+      "T_mean_fc": 35.262
+    },
+    "b3c25": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 989.0,
+      "T_start_fc": 35.616,
+      "T_mean_fc": 36.451
+    },
+    "b3c26": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 1028.0,
+      "T_start_fc": 35.844,
+      "T_mean_fc": 36.539
+    },
+    "b3c27": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 850.0,
+      "T_start_fc": 35.425,
+      "T_mean_fc": 36.096
+    },
+    "b3c28": {
+      "group": "b3",
+      "policy": "3.7C(31%)-5.9C-newstructure",
+      "cycle_life": 541.0,
+      "T_start_fc": 35.8,
+      "T_mean_fc": 36.168
+    },
+    "b3c29": {
+      "group": "b3",
+      "policy": "5.9C(15%)-4.6C-newstructure",
+      "cycle_life": 858.0,
+      "T_start_fc": NaN,
+      "T_mean_fc": NaN
+    },
+    "b3c30": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 935.0,
+      "T_start_fc": 32.105,
+      "T_mean_fc": 32.523
+    },
+    "b3c31": {
+      "group": "b3",
+      "policy": "5.9C(60%)-3.1C-newstructure",
+      "cycle_life": 731.0,
+      "T_start_fc": 34.139,
+      "T_mean_fc": 34.95
+    },
+    "b3c33": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 1284.0,
+      "T_start_fc": 33.578,
+      "T_mean_fc": 33.619
+    },
+    "b3c34": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 1158.0,
+      "T_start_fc": 36.577,
+      "T_mean_fc": 37.041
+    },
+    "b3c35": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 1093.0,
+      "T_start_fc": 36.254,
+      "T_mean_fc": 36.519
+    },
+    "b3c36": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 923.0,
+      "T_start_fc": 36.544,
+      "T_mean_fc": 37.074
+    },
+    "b3c38": {
+      "group": "b3",
+      "policy": "5C(67%)-4C-newstructure",
+      "cycle_life": 1935.0,
+      "T_start_fc": 35.689,
+      "T_mean_fc": 35.871
+    },
+    "b3c39": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 1156.0,
+      "T_start_fc": 34.653,
+      "T_mean_fc": 34.812
+    },
+    "b3c40": {
+      "group": "b3",
+      "policy": "5.6C(19%)-4.6C-newstructure",
+      "cycle_life": 796.0,
+      "T_start_fc": 33.725,
+      "T_mean_fc": 34.561
+    },
+    "b3c41": {
+      "group": "b3",
+      "policy": "5.6C(36%)-4.3C-newstructure",
+      "cycle_life": 786.0,
+      "T_start_fc": 33.393,
+      "T_mean_fc": 34.237
+    },
+    "b3c44": {
+      "group": "b3",
+      "policy": "5.3C(54%)-4C-newstructure",
+      "cycle_life": 940.0,
+      "T_start_fc": 33.32,
+      "T_mean_fc": 34.01
+    },
+    "b3c45": {
+      "group": "b3",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 1801.0,
+      "T_start_fc": 33.063,
+      "T_mean_fc": 33.101
+    },
+    "u1c0": {
+      "group": "u1 std",
+      "policy": "5.2C(58%)-4C",
+      "cycle_life": 477.0,
+      "T_start_fc": 30.616,
+      "T_mean_fc": 32.035
+    },
+    "u1c1": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 491.0,
+      "T_start_fc": 31.627,
+      "T_mean_fc": 32.928
+    },
+    "u1c2": {
+      "group": "u1 std",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 424.0,
+      "T_start_fc": 31.727,
+      "T_mean_fc": 33.423
+    },
+    "u1c3": {
+      "group": "u1 std",
+      "policy": "4.65C(44%)-5C",
+      "cycle_life": 499.0,
+      "T_start_fc": 32.271,
+      "T_mean_fc": 34.02
+    },
+    "u1c4": {
+      "group": "u1 std",
+      "policy": "4.65C(69%)-6C",
+      "cycle_life": 444.0,
+      "T_start_fc": 31.452,
+      "T_mean_fc": 33.602
+    },
+    "u1c5": {
+      "group": "u1 std",
+      "policy": "3.6C(30%)-6C",
+      "cycle_life": 416.0,
+      "T_start_fc": 32.054,
+      "T_mean_fc": 32.657
+    },
+    "u1c6": {
+      "group": "u1 std",
+      "policy": "3.6C(9%)-5C",
+      "cycle_life": 393.0,
+      "T_start_fc": 32.582,
+      "T_mean_fc": 32.983
+    },
+    "u1c7": {
+      "group": "u1 new",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 777.0,
+      "T_start_fc": 33.691,
+      "T_mean_fc": 34.277
+    },
+    "u1c8": {
+      "group": "u1 new",
+      "policy": "5.2C(58%)-4C-newstructure",
+      "cycle_life": 904.0,
+      "T_start_fc": 33.43,
+      "T_mean_fc": 34.013
+    },
+    "u1c9": {
+      "group": "u1 new",
+      "policy": "5.6C(26%)-4.5C-newstructure",
+      "cycle_life": 791.0,
+      "T_start_fc": 32.167,
+      "T_mean_fc": 32.387
+    },
+    "u1c10": {
+      "group": "u1 std",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 492.0,
+      "T_start_fc": 30.902,
+      "T_mean_fc": 31.797
+    },
+    "u1c11": {
+      "group": "u1 std",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 449.0,
+      "T_start_fc": 31.584,
+      "T_mean_fc": 33.521
+    },
+    "u1c12": {
+      "group": "u1 std",
+      "policy": "4.65C(44%)-5C",
+      "cycle_life": 466.0,
+      "T_start_fc": 30.53,
+      "T_mean_fc": 31.297
+    },
+    "u1c13": {
+      "group": "u1 std",
+      "policy": "4.65C(69%)-6C",
+      "cycle_life": 460.0,
+      "T_start_fc": 30.768,
+      "T_mean_fc": 32.253
+    },
+    "u1c14": {
+      "group": "u1 std",
+      "policy": "3.6C(30%)-6C",
+      "cycle_life": 426.0,
+      "T_start_fc": 30.916,
+      "T_mean_fc": 32.325
+    },
+    "u1c15": {
+      "group": "u1 std",
+      "policy": "3.6C(9%)-5C",
+      "cycle_life": 396.0,
+      "T_start_fc": 31.707,
+      "T_mean_fc": 32.886
+    },
+    "u1c16": {
+      "group": "u1 std",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 472.0,
+      "T_start_fc": 31.447,
+      "T_mean_fc": 32.849
+    },
+    "u1c17": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 471.0,
+      "T_start_fc": 31.665,
+      "T_mean_fc": 32.512
+    },
+    "u1c18": {
+      "group": "u1 std",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 449.0,
+      "T_start_fc": 31.918,
+      "T_mean_fc": 33.184
+    },
+    "u1c19": {
+      "group": "u1 std",
+      "policy": "6C(60%)-3C",
+      "cycle_life": 392.0,
+      "T_start_fc": 31.627,
+      "T_mean_fc": 33.359
+    },
+    "u1c20": {
+      "group": "u1 std",
+      "policy": "5.2C(58%)-4C",
+      "cycle_life": 489.0,
+      "T_start_fc": 32.394,
+      "T_mean_fc": 33.826
+    },
+    "u1c21": {
+      "group": "u1 std",
+      "policy": "6C(60%)-3C",
+      "cycle_life": 408.0,
+      "T_start_fc": 32.229,
+      "T_mean_fc": 34.462
+    },
+    "u1c24": {
+      "group": "u1 std",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 514.0,
+      "T_start_fc": 31.711,
+      "T_mean_fc": 33.417
+    },
+    "u1c25": {
+      "group": "u1 std",
+      "policy": "5.2C(58%)-4C",
+      "cycle_life": 493.0,
+      "T_start_fc": 31.556,
+      "T_mean_fc": 32.395
+    },
+    "u1c26": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 450.0,
+      "T_start_fc": 31.79,
+      "T_mean_fc": 33.325
+    },
+    "u1c27": {
+      "group": "u1 std",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 474.0,
+      "T_start_fc": 31.648,
+      "T_mean_fc": 33.632
+    },
+    "u1c28": {
+      "group": "u1 std",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 437.0,
+      "T_start_fc": 30.992,
+      "T_mean_fc": 32.2
+    },
+    "u1c29": {
+      "group": "u1 std",
+      "policy": "5.2C(58%)-4C",
+      "cycle_life": 452.0,
+      "T_start_fc": 31.0,
+      "T_mean_fc": 31.963
+    },
+    "u1c30": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 412.0,
+      "T_start_fc": 31.509,
+      "T_mean_fc": 33.124
+    },
+    "u1c31": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 425.0,
+      "T_start_fc": 31.899,
+      "T_mean_fc": 33.062
+    },
+    "u1c32": {
+      "group": "u1 new",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 809.0,
+      "T_start_fc": 32.197,
+      "T_mean_fc": 32.438
+    },
+    "u1c33": {
+      "group": "u1 new",
+      "policy": "5.2C(58%)-4C-newstructure",
+      "cycle_life": 1140.0,
+      "T_start_fc": 33.044,
+      "T_mean_fc": 33.224
+    },
+    "u1c34": {
+      "group": "u1 new",
+      "policy": "5.6C(26%)-4.5C-newstructure",
+      "cycle_life": 1186.0,
+      "T_start_fc": 36.394,
+      "T_mean_fc": 36.898
+    },
+    "u1c41": {
+      "group": "u1 std",
+      "policy": "5.6C(26%)-4.5C",
+      "cycle_life": 442.0,
+      "T_start_fc": 29.789,
+      "T_mean_fc": 30.19
+    },
+    "u1c42": {
+      "group": "u1 std",
+      "policy": "5.2C(50%)-4.25C",
+      "cycle_life": 474.0,
+      "T_start_fc": 30.23,
+      "T_mean_fc": 31.892
+    },
+    "u1c43": {
+      "group": "u1 new",
+      "policy": "4.8C(80%)-4.8C-newstructure",
+      "cycle_life": 1029.0,
+      "T_start_fc": 33.564,
+      "T_mean_fc": 34.386
+    },
+    "u1c44": {
+      "group": "u1 new",
+      "policy": "5.2C(58%)-4C-newstructure",
+      "cycle_life": 841.0,
+      "T_start_fc": 33.696,
+      "T_mean_fc": 34.631
+    },
+    "u1c45": {
+      "group": "u1 new",
+      "policy": "5.6C(26%)-4.5C-newstructure",
+      "cycle_life": 997.0,
+      "T_start_fc": 35.117,
+      "T_mean_fc": 35.867
+    },
+    "u1c46": {
+      "group": "u1 std",
+      "policy": "4.8C(80%)-4.8C",
+      "cycle_life": 503.0,
+      "T_start_fc": 29.553,
+      "T_mean_fc": 29.863
+    }
+  }
+}

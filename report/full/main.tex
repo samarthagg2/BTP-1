@@ -1,0 +1,68 @@
+% =====================================================================
+%  BTP-1 Report -- Early Prediction of Li-ion Battery Cycle Life
+%  IEEE conference format (IEEEtran). Compile with pdfLaTeX + BibTeX
+%  (Overleaf default). Section bodies live in sections/*.tex.
+% =====================================================================
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{placeins}  % \FloatBarrier: keep each section's floats near its text
+
+\graphicspath{{../figures/}}
+
+% --- helpers ---------------------------------------------------------
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\dq}{\Delta Q_{100-10}(V)}
+\newcommand{\Crate}[1]{#1\,C}
+
+\begin{document}
+
+\title{Early Prediction of Lithium-Ion Battery Cycle Life:\\
+A Comparative Study of Machine Learning Models\\
+and Physics-Informed Features\\
+\large B.Tech Project (BTP-1) -- Interim Report}
+
+\author{\IEEEauthorblockN{Samarth Aggarwal}
+\IEEEauthorblockA{\textit{\todo{Department}} \\
+\textit{Indian Institute of Technology Bombay}\\
+Mumbai, India \\
+\todo{Roll No.} \quad samarth.wncc@gmail.com}
+\and
+\IEEEauthorblockN{\todo{Guide name}}
+\IEEEauthorblockA{\textit{\todo{Department}} \\
+\textit{Indian Institute of Technology Bombay}\\
+Mumbai, India}
+}
+
+\maketitle
+
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/01b_problem}
+\input{sections/02_background}
+\input{sections/03_dataset}
+\input{sections/04_pipeline}
+\input{sections/05_eda}
+\input{sections/05b_reproduction}
+\input{sections/05c_physics}
+\input{sections/05d_models}
+\input{sections/05e_unseen}
+\input{sections/06_discussion}
+\input{sections/07_plan}
+
+\bibliographystyle{IEEEtran}
+\bibliography{../refs}
+
+\end{document}

@@ -1,0 +1,97 @@
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Protocol}
+Every model predicts $\log_{10}$(cycle life) from features of cycles $\le N$
+(Table~\ref{tab:featsets}). Missing values are filled with the training
+median and features are standardised on the training cells. To keep the
+small test sets honest, all choices (candidate features, model variants,
+settings and the bounds of the GP) are made on the 41 training cells only,
+by cross-validation or, where a choice is itself being compared, nested
+cross-validation. Each configuration chosen this way is then evaluated once
+on the primary and secondary test sets, and all are reported. The unseen
+batch u1 is used once, at the end, with every model frozen
+(Section~\ref{sec:rq5}). Models using the
+temperature integral leave out the four cells with a detached probe, as in
+the paper. Randomised steps are repeated with 5--10 seeds; the spread is a few
+cycles (at most 11) and is not shown.
+
+\subsection{Metrics}
+Predictions of $\log_{10}$ life are converted back to cycles before
+scoring. Table~\ref{tab:metrics} lists the scores; RMSE and MAPE are those
+of~\cite{severson2019}, the last three are ours.
+
+\begin{table}[!htb]
+\centering
+\caption{Evaluation metrics. $y_i$, $\hat y_i$: observed and predicted
+life of test cell $i$ (cycles).}
+\label{tab:metrics}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.20\columnwidth}>{\raggedright\arraybackslash}p{0.42\columnwidth}>{\raggedright\arraybackslash}p{0.34\columnwidth}@{}}
+\toprule
+Metric & Definition & Purpose / values \\
+\midrule
+RMSE (cycles) & $\sqrt{\tfrac1n\sum_i(\hat y_i-y_i)^2}$ & typical error; dominated by large errors \\
+MAPE (\%) & $\tfrac{100}{n}\sum_i|\hat y_i-y_i|/y_i$ & error relative to life; fair to short-lived cells \\
+Constant baseline & every cell predicted at the geometric mean of training lives, 622 cycles (mean of $\log_{10}$ life) & the bar to beat: RMSE 401 (primary), 511 (secondary) \\
+In-range RMSE & RMSE over test cells with life in the training range, 300--2160 & separates prediction from extrapolation; drops \texttt{b1c2} (2237) and \texttt{b2c1} (148) \\
+Paired bootstrap & RMSE difference of two models on the same resampled test cells; 5000 resamples, 95\,\% interval & difference is real only if the interval excludes 0 \\
+GP coverage & share of test cells inside the GP's 95\,\% prediction interval & calibrated if $\approx95$\,\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Models}
+Table~\ref{tab:models} lists the models; Section~\ref{sec:rq2} explains
+the non-linear ones. Trees and neural networks were not among the main
+models: a tree cannot predict beyond the training lives, and a neural
+network has far more parameters than the 41 cells. One random forest was
+tested as a check.
+
+\begin{table}[!htb]
+\centering
+\caption{Models. All use standardised inputs and predict $\log_{10}$ life;
+CV: 4-fold cross-validation repeated 5--10 times on the training cells.}
+\label{tab:models}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.14\columnwidth}>{\raggedright\arraybackslash}p{0.46\columnwidth}>{\raggedright\arraybackslash}p{0.35\columnwidth}@{}}
+\toprule
+Model & Setup & Tuning \\
+\midrule
+EN~\cite{severson2019} & linear; $\ell_1+\ell_2$ penalty, $\alpha\|w\|_1\rho+\tfrac{\alpha}{2}(1-\rho)\|w\|_2^2$; plain least squares for F1 & $\alpha$ (100 values), $\rho\in[0.1,1]$ (8); CV \\
+GP & kernel: linear $+$ Mat\'ern-5/2 (one length-scale per feature) $+$ noise; gives a predictive s.d. & marginal likelihood; length-scale $\ge1$, noise $\ge0.01$ \\
+GAM & cubic spline per feature (linear beyond the data) $+$ ridge & knots (3--5), ridge (11); CV \\
+RF & 300 trees on bootstrap samples (check only) & leaf size, features per split; CV \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Experiments}
+Table~\ref{tab:experiments} lists which models and feature sets answer each
+research question. The non-linear models are run on F2 only: it is the
+paper's best set on a new batch, while F3 contains batch-dependent features
+(Section~\ref{sec:eda}) that already make the elastic net fail on the
+secondary batch. No new feature set is used, because none of the screened
+candidates added information (Section~\ref{sec:rq3}).
+
+\begin{table}[!htb]
+\centering
+\caption{Models and feature sets used for each research question. Prim./Sec.:
+primary and secondary test sets.}
+\label{tab:experiments}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.58\columnwidth}>{\raggedright\arraybackslash}p{0.27\columnwidth}@{}}
+\toprule
+RQ & Models $\times$ feature sets & Tested on \\
+\midrule
+RQ1 & EN on F1 (plain least squares), F2, F3 & Prim., Sec. \\
+RQ3 & 19 candidates screened with linear fits; overhang check: EN on F1 and F2 with and without it & Training; Prim., Sec., u1 \\
+RQ2 & GP, GAM and a random forest on F2, against EN-F2 & Prim., Sec. \\
+RQ4 & EN on F1, F2, F3, recomputed for $N=20$--150 & Prim., Sec. \\
+RQ5 & EN on F1, F2, F3; GP, GAM and random forest on F2 & u1 standard and \texttt{newstructure} \\
+\bottomrule
+\end{tabular}
+\end{table}

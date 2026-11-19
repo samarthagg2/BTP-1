@@ -1,0 +1,56 @@
+\begin{abstract}
+Predicting how long a lithium-ion cell will last, using only its first few
+charge--discharge cycles, would shorten battery development and validation
+from months to days. This project follows the data-driven approach of
+Severson \textit{et al.}~\cite{severson2019}, using the public dataset of
+commercial LFP/graphite cells (A123 APR18650M1A, 1.1\,Ah) cycled to failure
+under two-step fast-charging policies. This interim report documents the
+experiment and the data, using as the example a batch of 47 cells
+(2018-02-20) that is not part of the original study and whose policies all
+charge from 0 to 80\% state of charge in 10 minutes.
+It describes the conversion of the raw MATLAB files into a Python data
+structure and presents an exploratory analysis of capacity fade, internal
+resistance, temperature and the discharge voltage curve. Of the 47 cells,
+39 have a usable cycle life (392 to 1186 cycles). They fall into two
+distinct groups: standard cells (392--514 cycles) and cells marked
+\texttt{-newstructure} (777--1186 cycles). The key early-life feature of
+\cite{severson2019}, the variance of $\dq$, is strongly correlated with log
+cycle life across all cells (Pearson $r=-0.92$). Within each group,
+however, the correlation is much weaker ($r=-0.38$ and $r=-0.27$). The
+report then describes a data pipeline for all four public batches (163
+labelled cells) and uses it to reproduce the three models
+of~\cite{severson2019}. The single-feature variance model matches the
+published errors to within one cycle, and the six- and nine-feature
+elastic-net models agree to within the cross-validation spread, with the
+same model ranking (e.g.\ 90 vs.\ 91 cycles RMSE on the primary test set
+for the discharge model). The reproduction also exposed a data fault in one
+cell that had passed the initial cleaning. Screening 19 physics-informed
+candidates showed that most mechanism features are already contained in the
+discharge-curve feature, and that several apparent predictors only identify
+the test batch. Two features survive: the capacity margin to end of life
+divided by the degradation rate, and the early capacity rise caused by the
+anode overhang. With the paper's model, these two features beat the
+nine-feature model on both test sets (114 vs.\ 125 and 170 vs.\ 220 cycles
+RMSE) and equal the six-feature discharge model on the secondary set; they do
+not clearly beat it on the primary set, mainly because they under-predict the
+longest-lived cell.
+A comparison with four other model types shows that,
+with 41 training cells, none beats the paper's regularised linear model on a
+new batch: a Gaussian process, support vector regression and additive splines
+are better within the training batches but not on the secondary batch, and
+partial least squares on the whole discharge curve fails there because it
+relies on narrow, procedure-dependent features. About 40 cycles suffice for a
+rough prediction, 100 cycles are clearly better, and more cycles bring no
+gain. On a second unseen batch, not used in the original study, the standard
+cells are predicted to within 5--10\,\% by several models, while cells run
+with a different procedure are over-predicted by 17--50\,\% by every model;
+the model that transfers best differs between the two new batches. SHAP
+analysis shows that the models lean on the features that lie outside the
+training range, and that a Gaussian process gains over the linear model on the
+unseen batch because it learned a saturating effect of the overhang rise.
+\end{abstract}
+
+\begin{IEEEkeywords}
+lithium-ion battery, cycle life prediction, fast charging, degradation,
+machine learning, feature engineering, LFP
+\end{IEEEkeywords}

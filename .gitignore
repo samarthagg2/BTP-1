@@ -21,6 +21,7 @@ report/*.bbl
 report/*.blg
 report/*.synctex.gz
 report/main.pdf
+report/full/main.pdf
 report_overleaf.zip
 
 # Processed data caches (regenerate with src/convert.py + src/clean.py); keep splits.json
